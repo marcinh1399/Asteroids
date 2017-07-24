@@ -22,11 +22,9 @@ b2Body * Asteroid::getBody()
 void Asteroid::hit(const float & dmg)
 {
 	stamina -= dmg;
-
 	if (stamina <= 0) {
 		stamina = 0;
 		destroyed = true;
-
 	}
 }
 
@@ -58,8 +56,8 @@ void Asteroid::updatePosition()
 	_sprite->setRotation(angle);
 }
 
-Asteroid::Asteroid(b2Body * ptr_body, sf::Sprite * ptr_sprite) :
-	_body(ptr_body), _sprite(ptr_sprite)
+Asteroid::Asteroid(b2Body * ptr_body, sf::Sprite * ptr_sprite) 
+	: _body(ptr_body), _sprite(ptr_sprite)
 {
 	setStamina();
 	updatePosition();

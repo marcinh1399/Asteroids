@@ -9,6 +9,7 @@
 #include "Object.h"
 #include <algorithm>
 #include <cmath>
+#include <memory>
 
 
 #define NDEBUG
@@ -20,17 +21,56 @@
 int main(int argc, char** argv)
 {
 
-	b2World * _world = new b2World(b2Vec2{ 0.f, 0.f });
+
+	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
+	std::unique_ptr<b2World> _world(new b2World(b2Vec2{ 0.f, 0.f }));
+
 	AsteroidBuilder * _asteroid_builder = new AsteroidBuilder(100, _world);
-	Asteroid * _asteroid = _asteroid_builder->getNewAsteroid(100, 100);
+	Asteroid * _asteroid1 = _asteroid_builder->getNewAsteroid(30, 20);
+	Asteroid * _asteroid2 = _asteroid_builder->getNewAsteroid(70, 25);
+	_asteroid1->getBody()->SetLinearVelocity(b2Vec2{ 5.f, 0.f });
+	_asteroid2->getBody()->SetLinearVelocity(b2Vec2{ -8.f, 0.f });
 
 
-	for (int i = 0; i < 60; ++i)
+	
+
+
+	for (int i = 0; ; ++i)
 	{
+		
+		sf::Clock clock;
+		clock.restart();
+		sf::Time time = sf::seconds(1.f / 60.f);
+		while (clock.getElapsedTime() < time);
+
 		_world->Step(1.f / 60.f, 8, 3);
-		printf("(%f.6, %f.6)\n", _asteroid->getBody()->GetPosition().x, _asteroid->getBody()->GetPosition().y);
+		printf("(%f.6, %f.6)\n", _asteroid1->getBody()->GetPosition().x, _asteroid1->getBody()->GetPosition().y);
+		printf("(%f.6, %f.6)\n", _asteroid2->getBody()->GetPosition().x, _asteroid2->getBody()->GetPosition().y);
+		
+		_asteroid1->act(1.f / 60.f);
+		_asteroid2->act(1.f / 60.f);
+
+		
+		sf::ConvexShape * s1 = _asteroid1->getShape();
+		sf::ConvexShape * s2 = _asteroid2->getShape();
+
+
+		/*
+		sf::RectangleShape * sh = new sf::RectangleShape(sf::Vector2f{ 100, 100 });
+		sh->setPosition(100, 100);
+		sh->setFillColor(sf::Color::White);
+		*/
+
+		_window->clear();
+		_window->draw(*s1);
+		_window->draw(*s2);
+		//_window->draw(*sh);
+		_window->display();
 	}
 
+
+
+	while (true);
 	
 
 #ifndef NDEBUG

@@ -33,13 +33,15 @@ void Asteroid::act(const float & delta)
 	if (destroyed)
 		time_after_impact += delta;
 
+	updatePosition();
+
 	if (time_after_impact >= time_of_explosion)
 		exploded = true;
 }
 
-sf::Shape & Asteroid::getShape()
+sf::ConvexShape * Asteroid::getShape()
 {
-	return *_shape;
+	return _shape;
 }
 
 bool Asteroid::isDestroyed()
@@ -56,7 +58,7 @@ void Asteroid::updatePosition()
 	_shape->setRotation(angle);
 }
 
-Asteroid::Asteroid(b2Body * ptr_body, sf::Shape * ptr_shape) 
+Asteroid::Asteroid(b2Body * ptr_body, sf::ConvexShape * ptr_shape) 
 	: _body(ptr_body), _shape(ptr_shape)
 {
 	setStamina();

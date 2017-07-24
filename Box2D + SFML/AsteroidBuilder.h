@@ -5,15 +5,18 @@
 #include "Asteroid.h"
 #include <cstdlib>
 #include <vector>
+#include <memory>
 
 #define M_PI 3.14159265359
-#define SCALE 0.5
+#define SCALE 0.05
 #define MIN_DENSITY 50
 #define RND_DENSITY	50
 #define SCL_DENSITY 0.1
 #define MIN_FRICTION 35
 #define RND_FRICTION 50
 #define SCL_FRICTION 0.01
+#define MIN_SPEED 50
+#define RND_SPEED 50
 
 
 class AsteroidBuilder
@@ -25,7 +28,7 @@ private:
 	const int min_vertices = 4;
 	const int rnd_vertices = 4;
 
-	b2World * _world;
+	std::unique_ptr<b2World> & _world;
 
 	b2Vec2 * b2_vertices;
 	sf::Vector2f * sf_vertices;
@@ -36,7 +39,7 @@ private:
 
 	
 
-	b2Body * generateBody(const float & x, const float & y);
+	b2Body * generateBody(const float & x, const float & y, const int & amount);
 
 	sf::ConvexShape * generateSFShape(const int & amount);
 
@@ -48,7 +51,7 @@ private:
 	
 
 public:
-	AsteroidBuilder(int max_radius, b2World * ptr_world);
+	AsteroidBuilder(int max_radius, std::unique_ptr<b2World> & unique_world);
 	
 	Asteroid * getNewAsteroid(const float & xWorld, const float & yWorld);
 

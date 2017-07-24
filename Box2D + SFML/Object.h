@@ -13,7 +13,7 @@ public:
 
 	virtual void act(const float & delta) = 0;
 
-	virtual sf::Shape & getShape() = 0;
+	virtual sf::ConvexShape * getShape() = 0;
 
 	virtual bool isDestroyed() = 0;
 

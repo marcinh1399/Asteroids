@@ -5,7 +5,7 @@
 #include "SFML\Graphics.hpp"
 
 
-#define SCALE 1
+#define SCALE 20
 #define M_PI 3.14159265359
 
 class Asteroid :
@@ -20,7 +20,7 @@ private :
 	bool destroyed{ false };
 	bool exploded{ false };
 	sf::Vector2f position{ 0.f, 0.f };
-	sf::Shape * _shape;
+	sf::ConvexShape * _shape;
 	b2Body * _body;
 
 
@@ -29,13 +29,7 @@ private :
 
 	void setStamina();
 
-	
-
 	virtual void hit(const float & dmg) override;
-
-	virtual void act(const float & delta) override;
-
-	virtual sf::Shape & getShape() override;
 
 	virtual bool isDestroyed() override;
 	
@@ -44,9 +38,13 @@ private :
 
 
 public:
-	Asteroid(b2Body * ptr_body, sf::Shape * _shape);
+	Asteroid(b2Body * ptr_body, sf::ConvexShape * _shape);
 
 	virtual b2Body * getBody() override;
+
+	virtual sf::ConvexShape * getShape() override;
+
+	virtual void act(const float & delta) override;
 
 	~Asteroid();
 };

@@ -47,15 +47,17 @@ int AsteroidBuilder::generateShape()
 Asteroid * AsteroidBuilder::getNewAsteroid(const float & xWorld, const float & yWorld)
 {
 	int amount_of_vertices = generateShape();
-	b2Body * _body = generateBody(xWorld, yWorld);
+	b2Body * _body = generateBody(xWorld, yWorld, amount_of_vertices);
 	sf::ConvexShape * _shape = generateSFShape(amount_of_vertices);
-	Asteroid * asteroid = new Asteroid(_body, _shape);
-	return asteroid;
+	Asteroid * _asteroid = new Asteroid(_body, _shape);
+	_body->SetUserData(_asteroid);
+	delete[] b2_vertices;
+	delete[] sf_vertices;
+	return _asteroid;
 }
 
-b2Body * AsteroidBuilder::generateBody(const float & x, const float & y)
+b2Body * AsteroidBuilder::generateBody(const float & x, const float & y, const int & amount)
 {
-	int amount = generateShape();
 
 	b2BodyDef * _body_def = new b2BodyDef();
 	_body_def->position.Set(x, y);
@@ -70,25 +72,26 @@ b2Body * AsteroidBuilder::generateBody(const float & x, const float & y)
 	_fixture_def->shape = _shape;
 	_fixture_def->density = randDensity();
 	_fixture_def->friction = randFriction();
-	///_fixture_def->restitution = ???
+	_fixture_def->restitution = 0.5; //////////////////////////////
 
 	_body->CreateFixture(_fixture_def);
 	_body->SetLinearVelocity(b2Vec2{ -10.f, -20.f }); // only for tests
-
-	delete[] b2_vertices;
-	delete[] sf_vertices;
 
 	return _body;
 }
 
 sf::ConvexShape * AsteroidBuilder::generateSFShape(const int & amount)
 {
-	sf::ConvexShape * _shape = new sf::ConvexShape(amount);
+	sf::ConvexShape * _shape = new sf::ConvexShape();
+	_shape->setPointCount(amount);
 	
 	for (int i = 0; i < amount; ++i)
 		_shape->setPoint(i, sf_vertices[i]);
 
 	_shape->setOrigin(0, 0);
+	_shape->setOutlineThickness(2);
+	_shape->setOutlineColor(sf::Color::Green);
+	_shape->setFillColor(sf::Color::White);
 
 	return _shape;
 }
@@ -114,7 +117,7 @@ float AsteroidBuilder::randFriction()
 }
 
 
-AsteroidBuilder::AsteroidBuilder(int max_radius, b2World * ptr_world) : _world(ptr_world)
+AsteroidBuilder::AsteroidBuilder(int max_radius, std::unique_ptr<b2World> & unique_world) : _world(unique_world)
 {
 	setRangeOfRadius(max_radius);
 	srand(time(NULL));

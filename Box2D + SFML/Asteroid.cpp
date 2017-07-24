@@ -22,9 +22,11 @@ b2Body * Asteroid::getBody()
 void Asteroid::hit(const float & dmg)
 {
 	stamina -= dmg;
+
 	if (stamina <= 0) {
 		stamina = 0;
 		destroyed = true;
+
 	}
 }
 

@@ -4,12 +4,14 @@
 #include "Box2D\Box2D.h"
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
+#include "AsteroidBuilder.h"
+#include "Asteroid.h"
 #include "Object.h"
 #include <algorithm>
 #include <cmath>
 
 
-
+#define NDEBUG
 
 
 #define M_PI 3.14159265359
@@ -17,6 +19,24 @@
 
 int main(int argc, char** argv)
 {
+
+	b2World * _world = new b2World(b2Vec2{ 0.f, 0.f });
+	AsteroidBuilder * _asteroid_builder = new AsteroidBuilder(100, _world);
+	Asteroid * _asteroid = _asteroid_builder->getNewAsteroid(100, 100);
+
+
+	for (int i = 0; i < 60; ++i)
+	{
+		_world->Step(1.f / 60.f, 8, 3);
+		printf("(%f.6, %f.6)\n", _asteroid->getBody()->GetPosition().x, _asteroid->getBody()->GetPosition().y);
+	}
+
+	
+
+#ifndef NDEBUG
+
+
+
 
 	srand(time(NULL));
 
@@ -57,6 +77,7 @@ int main(int argc, char** argv)
 		}
 	}
 
+#endif // !1
 
 	return 0;
 }

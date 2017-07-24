@@ -20,7 +20,7 @@ private :
 	bool destroyed{ false };
 	bool exploded{ false };
 	sf::Vector2f position{ 0.f, 0.f };
-	sf::Sprite * _sprite;
+	sf::Shape * _shape;
 	b2Body * _body;
 
 
@@ -29,13 +29,13 @@ private :
 
 	void setStamina();
 
-	virtual b2Body * getBody() override;
+	
 
 	virtual void hit(const float & dmg) override;
 
 	virtual void act(const float & delta) override;
 
-	virtual sf::Sprite & getSprite() override;
+	virtual sf::Shape & getShape() override;
 
 	virtual bool isDestroyed() override;
 	
@@ -44,7 +44,9 @@ private :
 
 
 public:
-	Asteroid(b2Body * ptr_body, sf::Sprite * ptr_sprite);
+	Asteroid(b2Body * ptr_body, sf::Shape * _shape);
+
+	virtual b2Body * getBody() override;
 
 	~Asteroid();
 };

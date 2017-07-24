@@ -44,6 +44,55 @@ int AsteroidBuilder::generateShape()
 	return amount_of_vertices;
 }
 
+Asteroid * AsteroidBuilder::getNewAsteroid(const float & xWorld, const float & yWorld)
+{
+	int amount_of_vertices = generateShape();
+	b2Body * _body = generateBody(xWorld, yWorld);
+	sf::ConvexShape * _shape = generateSFShape(amount_of_vertices);
+	Asteroid * asteroid = new Asteroid(_body, _shape);
+	return asteroid;
+}
+
+b2Body * AsteroidBuilder::generateBody(const float & x, const float & y)
+{
+	int amount = generateShape();
+
+	b2BodyDef * _body_def = new b2BodyDef();
+	_body_def->position.Set(x, y);
+	_body_def->type = b2_dynamicBody;
+
+	b2Body * _body = _world->CreateBody(_body_def);
+
+	b2PolygonShape * _shape = new b2PolygonShape();
+	_shape->Set(b2_vertices, amount);
+
+	b2FixtureDef * _fixture_def = new b2FixtureDef();
+	_fixture_def->shape = _shape;
+	_fixture_def->density = randDensity();
+	_fixture_def->friction = randFriction();
+	///_fixture_def->restitution = ???
+
+	_body->CreateFixture(_fixture_def);
+	_body->SetLinearVelocity(b2Vec2{ -10.f, -20.f }); // only for tests
+
+	delete[] b2_vertices;
+	delete[] sf_vertices;
+
+	return _body;
+}
+
+sf::ConvexShape * AsteroidBuilder::generateSFShape(const int & amount)
+{
+	sf::ConvexShape * _shape = new sf::ConvexShape(amount);
+	
+	for (int i = 0; i < amount; ++i)
+		_shape->setPoint(i, sf_vertices[i]);
+
+	_shape->setOrigin(0, 0);
+
+	return _shape;
+}
+
 void AsteroidBuilder::resizeToB2(int amount)
 {
 	for (int i = 0; i < amount; ++i)
@@ -52,6 +101,16 @@ void AsteroidBuilder::resizeToB2(int amount)
 		float y = sf_vertices[i].y * SCALE;
 		b2_vertices[i].Set(x, y);
 	}
+}
+
+float AsteroidBuilder::randDensity()
+{
+	return (rand() % RND_DENSITY + MIN_DENSITY) * SCL_DENSITY;
+}
+
+float AsteroidBuilder::randFriction()
+{
+	return (rand() % RND_FRICTION + MIN_FRICTION) * SCL_FRICTION;
 }
 
 

@@ -37,9 +37,9 @@ void Asteroid::act(const float & delta)
 		exploded = true;
 }
 
-sf::Sprite & Asteroid::getSprite()
+sf::Shape & Asteroid::getShape()
 {
-	return *_sprite;
+	return *_shape;
 }
 
 bool Asteroid::isDestroyed()
@@ -52,12 +52,12 @@ void Asteroid::updatePosition()
 	float angle = radiansToDegrees(_body->GetAngle());
 	position.x = _body->GetPosition().x * SCALE;
 	position.y = _body->GetPosition().y * SCALE;
-	_sprite->setPosition(position);
-	_sprite->setRotation(angle);
+	_shape->setPosition(position);
+	_shape->setRotation(angle);
 }
 
-Asteroid::Asteroid(b2Body * ptr_body, sf::Sprite * ptr_sprite) 
-	: _body(ptr_body), _sprite(ptr_sprite)
+Asteroid::Asteroid(b2Body * ptr_body, sf::Shape * ptr_shape) 
+	: _body(ptr_body), _shape(ptr_shape)
 {
 	setStamina();
 	updatePosition();
@@ -66,7 +66,7 @@ Asteroid::Asteroid(b2Body * ptr_body, sf::Sprite * ptr_sprite)
 
 Asteroid::~Asteroid()
 {
-	delete _sprite;
+	delete _shape;
 }
 
 

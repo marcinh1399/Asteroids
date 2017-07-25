@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 #include <memory>
+#include "Tests.h"
 
 #define M_PI 3.14159265359
 #define SCALE 0.05
@@ -23,27 +24,46 @@ class AsteroidBuilder
 {
 
 private:
+
 	int min_radius;
 	int rnd_radius;
 	const int min_vertices = 4;
 	const int rnd_vertices = 4;
-
 	std::unique_ptr<b2World> & _world;
-
 	b2Vec2 * b2_vertices;
 	sf::Vector2f * sf_vertices;
 
+
+	float stamina;
+	float scale;
+	int amount_of_vertices;
+	sf::ConvexShape * _shape;
+	b2Vec2 world_position{ 0.f, 0.f };
+	sf::Vector2f screen_position{ 0.f, 0.f };
+	b2Body * _body;
+
+
+	AsteroidBuilder * setWorldPosition(b2Vec2 position);
+
+	AsteroidBuilder * setScreenPosition(sf::Vector2f position);
+
+	AsteroidBuilder * setSfmlShape();
+
+	AsteroidBuilder * setBox2DShape();
+
+	AsteroidBuilder * setBody();
+
+	AsteroidBuilder * setStamina();
+
+	AsteroidBuilder * setLinearVelocity(b2Vec2 v);
+
+	AsteroidBuilder * setAngularVelocity(float angle);
+
+	Asteroid * build();
+
+
+
 	void setRangeOfRadius(const int & radius);
-
-	int generateShape();
-
-	
-
-	b2Body * generateBody(const float & x, const float & y, const int & amount);
-
-	sf::ConvexShape * generateSFShape(const int & amount);
-
-	void resizeToB2(int amount);
 
 	float randDensity();
 
@@ -51,10 +71,12 @@ private:
 	
 
 public:
-	AsteroidBuilder(int max_radius, std::unique_ptr<b2World> & unique_world);
-	
-	Asteroid * getNewAsteroid(const float & xWorld, const float & yWorld);
+	AsteroidBuilder(int max_radius, float scale, std::unique_ptr<b2World> & unique_world);
 
 	~AsteroidBuilder();
+
+	friend class AsteroidGenerator;
+
 };
+
 

@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <cmath>
 #include <memory>
+#include "AsteroidGenerator.h"
+#include <vector>
 
 
 #define NDEBUG
@@ -21,18 +23,21 @@
 int main(int argc, char** argv)
 {
 
+	srand(time(NULL));
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
 	std::unique_ptr<b2World> _world(new b2World(b2Vec2{ 0.f, 0.f }));
 
-	AsteroidBuilder * _asteroid_builder = new AsteroidBuilder(100, _world);
-	Asteroid * _asteroid1 = _asteroid_builder->getNewAsteroid(30, 20);
-	Asteroid * _asteroid2 = _asteroid_builder->getNewAsteroid(70, 25);
-	_asteroid1->getBody()->SetLinearVelocity(b2Vec2{ 5.f, 0.f });
-	_asteroid2->getBody()->SetLinearVelocity(b2Vec2{ -8.f, 0.f });
-
-
-	
+	AsteroidGenerator * _generator = new AsteroidGenerator(_world, 1920, 1200);
+	/*
+	_generator->makeAsteroid();
+	Asteroid * _asteroid1 = _generator->getAsteroid();
+	_generator->makeAsteroid();
+	Asteroid * _asteroid2 = _generator->getAsteroid();
+	_generator->makeAsteroid();
+	Asteroid * _asteroid3 = _generator->getAsteroid();
+	*/
+	std::vector<Asteroid *> v;
 
 
 	for (int i = 0; ; ++i)
@@ -43,28 +48,25 @@ int main(int argc, char** argv)
 		sf::Time time = sf::seconds(1.f / 60.f);
 		while (clock.getElapsedTime() < time);
 
+		_generator->makeAsteroid();
+		v.push_back(_generator->getAsteroid());
+		
+
+
+
 		_world->Step(1.f / 60.f, 8, 3);
-		printf("(%f.6, %f.6)\n", _asteroid1->getBody()->GetPosition().x, _asteroid1->getBody()->GetPosition().y);
-		printf("(%f.6, %f.6)\n", _asteroid2->getBody()->GetPosition().x, _asteroid2->getBody()->GetPosition().y);
+		//printf("(%f.6, %f.6)\n", _asteroid1->getBody()->GetPosition().x, _asteroid1->getBody()->GetPosition().y);
+		//printf("(%f.6, %f.6)\n", _asteroid2->getBody()->GetPosition().x, _asteroid2->getBody()->GetPosition().y);
 		
-		_asteroid1->act(1.f / 60.f);
-		_asteroid2->act(1.f / 60.f);
-
-		
-		sf::ConvexShape * s1 = _asteroid1->getShape();
-		sf::ConvexShape * s2 = _asteroid2->getShape();
-
-
-		/*
-		sf::RectangleShape * sh = new sf::RectangleShape(sf::Vector2f{ 100, 100 });
-		sh->setPosition(100, 100);
-		sh->setFillColor(sf::Color::White);
-		*/
-
 		_window->clear();
-		_window->draw(*s1);
-		_window->draw(*s2);
-		//_window->draw(*sh);
+
+		for (auto * _asteroid : v)
+		{
+			_asteroid->act(1.f / 60.f);
+			sf::ConvexShape s = *_asteroid->getShape();
+			_window->draw(s);
+		}
+
 		_window->display();
 	}
 

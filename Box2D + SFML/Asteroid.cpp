@@ -9,11 +9,6 @@ inline float Asteroid::radiansToDegrees(float radians)
 	return radians * 180.f / M_PI;
 }
 
-void Asteroid::setStamina()
-{
-	stamina = _body->GetMass();
-}
-
 b2Body * Asteroid::getBody()
 {
 	return _body;
@@ -52,16 +47,15 @@ bool Asteroid::isDestroyed()
 void Asteroid::updatePosition()
 {
 	float angle = radiansToDegrees(_body->GetAngle());
-	position.x = _body->GetPosition().x * SCALE;
-	position.y = _body->GetPosition().y * SCALE;
+	position.x = _body->GetPosition().x * scale;
+	position.y = _body->GetPosition().y * scale;
 	_shape->setPosition(position);
 	_shape->setRotation(angle);
 }
 
-Asteroid::Asteroid(b2Body * ptr_body, sf::ConvexShape * ptr_shape) 
-	: _body(ptr_body), _shape(ptr_shape)
+Asteroid::Asteroid(float hp, float scl, b2Body * ptr_body, sf::ConvexShape * ptr_shape) 
+	: stamina(hp), scale(scl), _body(ptr_body), _shape(ptr_shape)
 {
-	setStamina();
 	updatePosition();
 }
 

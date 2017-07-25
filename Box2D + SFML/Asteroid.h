@@ -14,7 +14,8 @@ class Asteroid :
 
 private :
 
-	float stamina{ INFINITY };
+	float scale;
+	float stamina;
 	float time_after_impact{ 0.f };
 	const float time_of_explosion{ 1.f };
 	bool destroyed{ false };
@@ -24,10 +25,7 @@ private :
 	b2Body * _body;
 
 
-
 	inline float radiansToDegrees(float);
-
-	void setStamina();
 
 	virtual void hit(const float & dmg) override;
 
@@ -35,10 +33,9 @@ private :
 	
 	void updatePosition();
 	
-
+	Asteroid(float hp, float scl, b2Body * ptr_body, sf::ConvexShape * _shape);
 
 public:
-	Asteroid(b2Body * ptr_body, sf::ConvexShape * _shape);
 
 	virtual b2Body * getBody() override;
 
@@ -47,6 +44,8 @@ public:
 	virtual void act(const float & delta) override;
 
 	~Asteroid();
+
+	friend class AsteroidBuilder;
 };
 
 

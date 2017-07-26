@@ -50,7 +50,7 @@ AsteroidBuilder * AsteroidBuilder::setSfmlShape()
 		sf_vertices[i] = sf::Vector2f{ x, y };
 
 #ifndef NDEBUG
-		Tests::isPointInCirlce(x, y, min_radius + rnd_radius - 1);
+		Tests::isPointInCircle(x, y, min_radius + rnd_radius - 1);
 #endif
 	}
 

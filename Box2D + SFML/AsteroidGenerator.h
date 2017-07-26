@@ -20,8 +20,6 @@ private:
 
 
 	AsteroidBuilder * _builder;
-	Asteroid * _asteroid;
-
 
 	sf::Vector2f getRandomScreenPosition();
 
@@ -30,17 +28,13 @@ private:
 	b2Vec2 getRandomLinearVelocity(sf::Vector2f position);
 
 	float getRandomAngularVelocity();
-
-
 	
 
 
 public:
 	AsteroidGenerator(std::unique_ptr<b2World> & _world, int screen_width, int screen_height);
 
-	void makeAsteroid();
-
-	Asteroid * getAsteroid();
+	Asteroid * makeAsteroid();
 
 	~AsteroidGenerator();
 

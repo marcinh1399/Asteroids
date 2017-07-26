@@ -12,6 +12,9 @@
 #include <memory>
 #include "AsteroidGenerator.h"
 #include <vector>
+#include <assert.h>
+#include "Object.h"
+#include "WorldManager.h"
 
 
 #define NDEBUG
@@ -24,23 +27,29 @@ int main(int argc, char** argv)
 {
 
 	srand(time(NULL));
+	std::vector<Object *> v;
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
+	std::unique_ptr<WorldManager> _manager(new WorldManager(1920, 1200, v));
+
+
+	
+	
+	
+	/*
 	std::unique_ptr<b2World> _world(new b2World(b2Vec2{ 0.f, 0.f }));
 
 	AsteroidGenerator * _generator = new AsteroidGenerator(_world, 1920, 1200);
-	/*
 	_generator->makeAsteroid();
 	Asteroid * _asteroid1 = _generator->getAsteroid();
 	_generator->makeAsteroid();
 	Asteroid * _asteroid2 = _generator->getAsteroid();
 	_generator->makeAsteroid();
 	Asteroid * _asteroid3 = _generator->getAsteroid();
+	
 	*/
-	std::vector<Asteroid *> v;
 
-
-	for (int i = 0; ; ++i)
+	for (;;)
 	{
 		
 		sf::Clock clock;
@@ -48,13 +57,11 @@ int main(int argc, char** argv)
 		sf::Time time = sf::seconds(1.f / 60.f);
 		while (clock.getElapsedTime() < time);
 
-		_generator->makeAsteroid();
-		v.push_back(_generator->getAsteroid());
+		
+		_manager->act(time.asSeconds());
 		
 
 
-
-		_world->Step(1.f / 60.f, 8, 3);
 		//printf("(%f.6, %f.6)\n", _asteroid1->getBody()->GetPosition().x, _asteroid1->getBody()->GetPosition().y);
 		//printf("(%f.6, %f.6)\n", _asteroid2->getBody()->GetPosition().x, _asteroid2->getBody()->GetPosition().y);
 		
@@ -62,7 +69,6 @@ int main(int argc, char** argv)
 
 		for (auto * _asteroid : v)
 		{
-			_asteroid->act(1.f / 60.f);
 			sf::ConvexShape s = *_asteroid->getShape();
 			_window->draw(s);
 		}
@@ -71,7 +77,7 @@ int main(int argc, char** argv)
 	}
 
 
-
+	/*
 	while (true);
 	
 
@@ -120,6 +126,6 @@ int main(int argc, char** argv)
 	}
 
 #endif // !1
-
+*/
 	return 0;
 }

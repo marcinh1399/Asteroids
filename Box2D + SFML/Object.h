@@ -17,4 +17,8 @@ public:
 
 	virtual bool isDestroyed() = 0;
 
+	virtual sf::Vector2f getPosition() = 0;
+
+	virtual bool isReadyToRemove() = 0;
+
 };

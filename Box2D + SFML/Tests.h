@@ -6,7 +6,7 @@ class Tests
 public:
 	Tests();
 
-	static void isPointInCirlce(float x, float y, float radius);
+	static void isPointInCircle(float x, float y, float radius);
 
 	~Tests();
 };

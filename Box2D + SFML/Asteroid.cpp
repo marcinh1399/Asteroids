@@ -25,6 +25,8 @@ void Asteroid::hit(const float & dmg)
 
 void Asteroid::act(const float & delta)
 {
+	time_after_creation += delta;
+
 	if (destroyed)
 		time_after_impact += delta;
 
@@ -32,6 +34,16 @@ void Asteroid::act(const float & delta)
 
 	if (time_after_impact >= time_of_explosion)
 		exploded = true;
+}
+
+bool Asteroid::isReadyToRemove()
+{
+	return time_after_creation > 4.f;
+}
+
+sf::Vector2f Asteroid::getPosition()
+{
+	return position;
 }
 
 sf::ConvexShape * Asteroid::getShape()
@@ -56,8 +68,10 @@ void Asteroid::updatePosition()
 Asteroid::Asteroid(float hp, float scl, b2Body * ptr_body, sf::ConvexShape * ptr_shape) 
 	: stamina(hp), scale(scl), _body(ptr_body), _shape(ptr_shape)
 {
+	_body->SetUserData(this);
 	updatePosition();
 }
+
 
 
 Asteroid::~Asteroid()

@@ -3,6 +3,7 @@
 
 #include "Object.h"
 #include "SFML\Graphics.hpp"
+#include <cmath>
 
 
 #define SCALE 20
@@ -18,6 +19,7 @@ private :
 	float stamina;
 	float time_after_impact{ 0.f };
 	const float time_of_explosion{ 1.f };
+	float time_after_creation{ 0.f };
 	bool destroyed{ false };
 	bool exploded{ false };
 	sf::Vector2f position{ 0.f, 0.f };
@@ -42,6 +44,10 @@ public:
 	virtual sf::ConvexShape * getShape() override;
 
 	virtual void act(const float & delta) override;
+
+	virtual bool isReadyToRemove() override;
+
+	virtual sf::Vector2f getPosition() override;
 
 	~Asteroid();
 

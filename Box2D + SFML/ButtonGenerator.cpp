@@ -55,11 +55,6 @@ bool ButtonGenerator::readPaths()
 
 	f_buttons >> button_description.texture_path
 		>> button_description.sound_path;
-
-	if (f_buttons.eof())
-	{
-		read = false;
-	}
 	
 	return read;
 }
@@ -90,12 +85,14 @@ bool ButtonGenerator::readPosition()
 		break;
 	}
 
-	if (f_buttons.eof())
-	{
-		read = false;
-	}
-
 	return read;
+}
+
+sf::Vector2f ButtonGenerator::getCorrectPosition()
+{
+	button_description.position.x -= _texture->getSize().x / 2;
+	button_description.position.y -= _texture->getSize().y / 2;
+	return button_description.position;
 }
 
 ButtonGenerator::ButtonGenerator(int scrn_width, int scrn_height)
@@ -108,14 +105,22 @@ ButtonGenerator::ButtonGenerator(int scrn_width, int scrn_height)
 PressButton * ButtonGenerator::makeButton(std::string name)
 {
 	PressButton * _button{ nullptr };
+	_texture = new sf::Texture();
 	bool loaded{ true };
 
-	if (!readFromFile(name))
-	{
+	bool read = readFromFile(name);
+	button_description.show();
+
+	if (read)
+	{	
+		loaded = loaded && _texture->loadFromFile(button_description.texture_path);
+
+	#ifndef NSOUND
 		sf::SoundBuffer buffer;
-		loaded = loaded && texture.loadFromFile(button_description.texture_path);
 		loaded = loaded && buffer.loadFromFile(button_description.sound_path);
 		_sound->setBuffer(buffer);
+	#endif 
+
 	}
 	else
 	{
@@ -125,9 +130,9 @@ PressButton * ButtonGenerator::makeButton(std::string name)
 	if (loaded)
 	{
 		_button = _builder
-			->setPosition(button_description.position)
-			->setTexture(texture)
+			->setTexture(_texture)
 			->setSound(_sound)
+			->setPosition(getCorrectPosition())
 			->build();
 	}
 

@@ -18,7 +18,7 @@ public:
 
 	ButtonBuilder * setPosition(sf::Vector2f pos);
 
-	ButtonBuilder * setTexture(const sf::Texture & texture);
+	ButtonBuilder * setTexture(sf::Texture * texture);
 
 	ButtonBuilder * setSound(sf::Sound * ptr_sound);
 

@@ -12,10 +12,10 @@ ButtonBuilder * ButtonBuilder::setPosition(sf::Vector2f pos)
 	return this;
 }
 
-ButtonBuilder * ButtonBuilder::setTexture(const sf::Texture & texture)
+ButtonBuilder * ButtonBuilder::setTexture(sf::Texture * texture)
 {
 	_sprite = new sf::Sprite();
-	_sprite->setTexture(texture);
+	_sprite->setTexture(*texture);
 
 	return this;
 }

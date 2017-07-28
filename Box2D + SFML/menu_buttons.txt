@@ -1,6 +1,3 @@
-name: play_button
-texture_path: play_button.png
-sound_path: button_sound.???
-position_type: 2
-x: 1 2
-y: 3 4
+play_button
+options_button
+exit_button

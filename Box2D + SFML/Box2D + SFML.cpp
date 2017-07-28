@@ -15,6 +15,12 @@
 #include <assert.h>
 #include "Object.h"
 #include "WorldManager.h"
+#include "ButtonGenerator.h"
+#include "IState.h"
+#include "MenuState.h"
+#include "StateManager.h"
+#include "GameState.h"
+#include <wtypes.h>
 
 
 #define NDEBUG
@@ -25,13 +31,90 @@
 
 int main(int argc, char** argv)
 {
+	RECT desktop;
+	const HWND Desktop = GetDesktopWindow();
+	GetWindowRect(Desktop, &desktop);
+	int width = desktop.right;
+	int height = desktop.bottom;
+
+	printf("WIDTH: %d\nHEIGTH: %d\n\n\n\n", width, height);
 
 	srand(time(NULL));
 	std::vector<Object *> v;
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
-	std::unique_ptr<WorldManager> _manager(new WorldManager(1920, 1200, v));
+	std::unique_ptr<WorldManager> _manager(new WorldManager(width, height, v));
+	std::unique_ptr<StateManager> _state_manager(new StateManager());
 
+
+	IState * _menu = new MenuState(_state_manager, _window, width, height);
+
+	_state_manager->push(_menu);
+
+
+	
+/*
+	if (_menu->isLoaded())
+	{
+		_menu->display();
+	}
+
+	printf("Mouse position: (%d, %d)\n", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+
+*/
+
+
+/*
+	ButtonGenerator * _generator = new ButtonGenerator(1920, 1200);
+
+	if (_generator->isFileOpen())
+	{
+		printf("File opened\n");
+	}
+
+	PressButton * play_button = _generator->makeButton("play_button");
+	PressButton * options_button = _generator->makeButton("options_button");
+	PressButton * exit_button = _generator->makeButton("exit_button");
+
+	sf::Sprite * _sprite1 = play_button->getSprite();
+	sf::Sprite * _sprite2 = options_button->getSprite();
+	sf::Sprite * _sprite3 = exit_button->getSprite();
+
+	_window->clear();
+
+	_window->draw(*_sprite1);
+	_window->draw(*_sprite2);
+	_window->draw(*_sprite3);
+
+	_window->display();
+
+	*/
+	IState * _state = _state_manager->getCurrentState();
+	IState * _g_state = new GameState(_state_manager, _window, width, height);
+
+	for (int i = 0;; ++i)
+	{
+		if (i == 200)
+		{
+			_state_manager->push(_g_state);
+		}
+
+		if (i == 1200)
+		{
+			_state_manager->removeCurrentState();
+		}
+		
+		sf::Clock clock;
+		clock.restart();
+		sf::Time time = sf::seconds(1.f / 60.f);
+		while (clock.getElapsedTime() < time);
+		_state = _state_manager->getCurrentState();
+		_state->mouseHandle(sf::Mouse::getPosition(), sf::Mouse::isButtonPressed(sf::Mouse::Left));
+		_state->update(clock.getElapsedTime().asSeconds());
+		_state->show();
+
+	
+	}
 
 	
 	
@@ -47,15 +130,12 @@ int main(int argc, char** argv)
 	_generator->makeAsteroid();
 	Asteroid * _asteroid3 = _generator->getAsteroid();
 	
-	*/
+	
 
 	for (;;)
 	{
 		
-		sf::Clock clock;
-		clock.restart();
-		sf::Time time = sf::seconds(1.f / 60.f);
-		while (clock.getElapsedTime() < time);
+		
 
 		
 		_manager->act(time.asSeconds());

@@ -1,0 +1,18 @@
+play_button
+play_button.png
+button_sound.wav
+2
+1 2
+1 4
+options_button
+options_button.png
+button_sound.wav
+2
+1 2
+2 4
+exit_button
+exit_button.png
+button_sound.wav
+2
+1 2
+3 4

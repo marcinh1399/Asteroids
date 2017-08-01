@@ -72,19 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\marci\Documents\External Libraries\boost_1_64_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\marci\Documents\External Libraries\boost_1_64_0\lib32-msvc-14.1;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\marci\Documents\External Libraries\boost_1_64_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\marci\Documents\External Libraries\boost_1_64_0\lib32-msvc-14.1;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -110,7 +114,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -149,17 +153,23 @@
     <ClInclude Include="AsteroidGenerator.h" />
     <ClInclude Include="ButtonBuilder.h" />
     <ClInclude Include="ButtonGenerator.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MouseHandling.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PressButton.h" />
     <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="Spaceship.h" />
+    <ClInclude Include="SpaceshipStats.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tests.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponShapes.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,13 +179,17 @@
     <ClCompile Include="Box2D + SFML.cpp" />
     <ClCompile Include="ButtonBuilder.cpp" />
     <ClCompile Include="ButtonGenerator.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="IState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MouseHandling.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PressButton.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="Spaceship.cpp" />
+    <ClCompile Include="SpaceshipStats.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -184,6 +198,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tests.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponShapes.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

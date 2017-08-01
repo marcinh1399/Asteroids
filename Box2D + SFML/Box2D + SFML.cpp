@@ -21,6 +21,8 @@
 #include "StateManager.h"
 #include "GameState.h"
 #include <wtypes.h>
+#include <boost\archive\text_iarchive.hpp>
+#include <boost\archive\text_oarchive.hpp>
 
 
 #define NDEBUG
@@ -29,15 +31,20 @@
 #define M_PI 3.14159265359
 
 
+
+
 int main(int argc, char** argv)
 {
+
 	RECT desktop;
 	const HWND Desktop = GetDesktopWindow();
 	GetWindowRect(Desktop, &desktop);
 	int width = desktop.right;
 	int height = desktop.bottom;
 
+
 	printf("WIDTH: %d\nHEIGTH: %d\n\n\n\n", width, height);
+
 
 	srand(time(NULL));
 	std::vector<Object *> v;

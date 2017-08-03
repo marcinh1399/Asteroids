@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Asteroid.h"
+#include "Coords.h"
 
 
 inline float Asteroid::radiansToDegrees(float radians)
@@ -38,7 +39,7 @@ void Asteroid::act(const float & delta)
 
 bool Asteroid::isReadyToRemove()
 {
-	return time_after_creation > 4.f;
+	return time_after_creation > 6.f;
 }
 
 sf::Vector2f Asteroid::getPosition()
@@ -46,7 +47,7 @@ sf::Vector2f Asteroid::getPosition()
 	return position;
 }
 
-sf::ConvexShape * Asteroid::getShape()
+sf::Shape * Asteroid::getShape()
 {
 	return _shape;
 }
@@ -59,8 +60,7 @@ bool Asteroid::isDestroyed()
 void Asteroid::updatePosition()
 {
 	float angle = radiansToDegrees(_body->GetAngle());
-	position.x = _body->GetPosition().x * scale;
-	position.y = _body->GetPosition().y * scale;
+	position = Coords::translate(_body->GetPosition());
 	_shape->setPosition(position);
 	_shape->setRotation(angle);
 }

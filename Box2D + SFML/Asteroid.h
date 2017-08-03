@@ -29,8 +29,6 @@ private :
 
 	inline float radiansToDegrees(float);
 
-	virtual void hit(const float & dmg) override;
-
 	virtual bool isDestroyed() override;
 	
 	void updatePosition();
@@ -41,7 +39,9 @@ public:
 
 	virtual b2Body * getBody() override;
 
-	virtual sf::ConvexShape * getShape() override;
+	virtual void hit(const float & dmg) override;
+
+	virtual sf::Shape * getShape() override;
 
 	virtual void act(const float & delta) override;
 

@@ -2,7 +2,7 @@
 #include "SFML\Graphics.hpp"
 
 
-class WeaponShapes
+class BulletShapes
 {
 	
 private:
@@ -19,7 +19,7 @@ private:
 
 public:
 
-	WeaponShapes();
+	BulletShapes();
 
 	sf::CircleShape * getBulletShape();
 
@@ -27,7 +27,6 @@ public:
 
 	sf::RectangleShape * getObstacleShape();
 
-
-	~WeaponShapes();
+	~BulletShapes();
 };
 

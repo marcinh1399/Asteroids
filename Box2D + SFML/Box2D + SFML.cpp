@@ -25,6 +25,9 @@
 #include <boost\archive\text_oarchive.hpp>
 
 
+#include "Coords.h"
+
+
 #define NDEBUG
 
 
@@ -32,9 +35,14 @@
 
 
 
+float Coords::to_world = 20.f;
+float Coords::to_screen = 1.f / 20.f;
+float Coords::m_pi = 3.14f;
 
 int main(int argc, char** argv)
 {
+	Coords::init(20);
+	
 
 	RECT desktop;
 	const HWND Desktop = GetDesktopWindow();
@@ -58,8 +66,6 @@ int main(int argc, char** argv)
 
 	_state_manager->push(_menu);
 
-
-	
 /*
 	if (_menu->isLoaded())
 	{
@@ -69,8 +75,6 @@ int main(int argc, char** argv)
 	printf("Mouse position: (%d, %d)\n", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
 */
-
-
 /*
 	ButtonGenerator * _generator = new ButtonGenerator(1920, 1200);
 
@@ -101,7 +105,7 @@ int main(int argc, char** argv)
 
 	for (int i = 0;; ++i)
 	{
-		if (i == 200)
+		if (i == 2)
 		{
 			_state_manager->push(_g_state);
 		}

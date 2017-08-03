@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "WeaponShapes.h"
+#include "BulletShapes.h"
 
 
-void WeaponShapes::loadShapes()
+void BulletShapes::loadShapes()
 {
 	_bullet = new sf::CircleShape(radius);
 	_obstacle = new sf::RectangleShape(sf::Vector2f{ 20, 20 });
@@ -26,28 +26,28 @@ void WeaponShapes::loadShapes()
 
 }
 
-WeaponShapes::WeaponShapes()
+BulletShapes::BulletShapes()
 {
 	loadShapes();
 }
 
-sf::CircleShape * WeaponShapes::getBulletShape()
+sf::CircleShape * BulletShapes::getBulletShape()
 {
 	return new sf::CircleShape(*_bullet);
 }
 
-sf::ConvexShape * WeaponShapes::getRocketShape()
+sf::ConvexShape * BulletShapes::getRocketShape()
 {
 	return new sf::ConvexShape(*_rocket);
 }
 
-sf::RectangleShape * WeaponShapes::getObstacleShape()
+sf::RectangleShape * BulletShapes::getObstacleShape()
 {
 	return new sf::RectangleShape(*_obstacle);
 }
 
 
-WeaponShapes::~WeaponShapes()
+BulletShapes::~BulletShapes()
 {
 	delete _bullet;
 	delete _rocket;

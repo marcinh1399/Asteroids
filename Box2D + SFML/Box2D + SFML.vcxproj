@@ -151,6 +151,7 @@
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AsteroidBuilder.h" />
     <ClInclude Include="AsteroidGenerator.h" />
+    <ClInclude Include="BulletBuilder.h" />
     <ClInclude Include="ButtonBuilder.h" />
     <ClInclude Include="ButtonGenerator.h" />
     <ClInclude Include="Equipment.h" />
@@ -168,8 +169,11 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tests.h" />
-    <ClInclude Include="Weapon.h" />
-    <ClInclude Include="WeaponShapes.h" />
+    <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="WeaponManager.h" />
+    <ClInclude Include="BulletShapes.h" />
+    <ClInclude Include="Coords.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +181,7 @@
     <ClCompile Include="AsteroidBuilder.cpp" />
     <ClCompile Include="AsteroidGenerator.cpp" />
     <ClCompile Include="Box2D + SFML.cpp" />
+    <ClCompile Include="BulletBuilder.cpp" />
     <ClCompile Include="ButtonBuilder.cpp" />
     <ClCompile Include="ButtonGenerator.cpp" />
     <ClCompile Include="Equipment.cpp" />
@@ -198,8 +203,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tests.cpp" />
-    <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="WeaponShapes.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="WeaponManager.cpp" />
+    <ClCompile Include="BulletShapes.cpp" />
+    <ClCompile Include="Coords.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

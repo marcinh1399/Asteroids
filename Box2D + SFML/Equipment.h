@@ -7,9 +7,10 @@ private:
 
 	float multiplier_per_level = 1.3;
 
+	const int max_level = 10;
 
 public:
-	static unsigned int max_level; // remember to initilize
+ // remember to initilize
 
 
 
@@ -42,8 +43,6 @@ public:
 
 
 	void makeGun(const unsigned int & level);
-
-
 
 	
 

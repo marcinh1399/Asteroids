@@ -124,7 +124,6 @@ Asteroid * AsteroidBuilder::build()
 {
 	Asteroid * _asteroid = new Asteroid(stamina, scale, _body, _shape);
 	
-	
 	delete[] b2_vertices;
 	delete[] sf_vertices;
 

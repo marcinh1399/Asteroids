@@ -17,6 +17,7 @@ private:
 	int screen_width;
 	int screen_height;
 
+
 	int asteroids_on_map{ 0 };
 	const int max_asteroids_on_map{ 20 };
 	float time_since_last_asteroid{ INFINITY };

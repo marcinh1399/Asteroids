@@ -1,13 +1,15 @@
 #pragma once
 #include "Object.h"
-#include "PlayerSerialization.h"
+#include "WeaponManager.h"
+#include "Coords.h"
 
+
+class WeaponManager;
 
 class Player :
 	public Object
 {
 
-	friend class PlayerSerialization;
 
 private:
 	
@@ -18,7 +20,12 @@ private:
 	const int initial_lives{ 1 };
 	const float immunity_after_reborn{ 5.f };
 	const float transparency_time{ 0.15f };
-	
+	sf::Vector2f position;
+
+	WeaponManager * _bullet_manager;
+	WeaponManager * _rocket_manager;
+	WeaponManager * _obstacle_manager;
+
 	
 	sf::Color shape_color{ sf::Color::Cyan };
 	sf::ConvexShape * _shape;
@@ -33,6 +40,10 @@ private:
 
 	void animationOfReborn(const float & delta);
 
+	void weaponManagers();
+
+	void updatePosition();
+
 
 
 public:
@@ -45,7 +56,7 @@ public:
 	
 	virtual void act(const float & delta) override;
 	
-	virtual sf::ConvexShape * getShape() override;
+	virtual sf::Shape * getShape() override;
 	
 	virtual bool isDestroyed() override;
 	

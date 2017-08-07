@@ -23,6 +23,7 @@
 #include <wtypes.h>
 #include <boost\archive\text_iarchive.hpp>
 #include <boost\archive\text_oarchive.hpp>
+#include "KeyboardHandling.h"
 
 
 #include "Coords.h"
@@ -55,26 +56,26 @@ int main(int argc, char** argv)
 
 
 	srand(time(NULL));
-	std::vector<Object *> v;
+	//std::vector<Object *> v;
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
-	std::unique_ptr<WorldManager> _manager(new WorldManager(width, height, v));
+	//std::unique_ptr<WorldManager> _manager(new WorldManager(width, height, v));
 	std::unique_ptr<StateManager> _state_manager(new StateManager());
 
+	
+	std::shared_ptr<KeyboardHandling> keyboard = std::make_shared<KeyboardHandling>();
 
-	IState * _menu = new MenuState(_state_manager, _window, width, height);
+	IState * _menu = new MenuState(_state_manager, _window, width, height, keyboard);
 
 	_state_manager->push(_menu);
 
-/*
+
 	if (_menu->isLoaded())
 	{
-		_menu->display();
+		//_menu->display();
 	}
 
-	printf("Mouse position: (%d, %d)\n", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
-*/
 /*
 	ButtonGenerator * _generator = new ButtonGenerator(1920, 1200);
 
@@ -101,7 +102,7 @@ int main(int argc, char** argv)
 
 	*/
 	IState * _state = _state_manager->getCurrentState();
-	IState * _g_state = new GameState(_state_manager, _window, width, height);
+	IState * _g_state = new GameState(_state_manager, _window, width, height, keyboard);
 
 	for (int i = 0;; ++i)
 	{
@@ -110,7 +111,7 @@ int main(int argc, char** argv)
 			_state_manager->push(_g_state);
 		}
 
-		if (i == 1200)
+		if (i == 120000)
 		{
 			_state_manager->removeCurrentState();
 		}
@@ -119,6 +120,7 @@ int main(int argc, char** argv)
 		clock.restart();
 		sf::Time time = sf::seconds(1.f / 60.f);
 		while (clock.getElapsedTime() < time);
+		keyboard->update();
 		_state = _state_manager->getCurrentState();
 		_state->mouseHandle(sf::Mouse::getPosition(), sf::Mouse::isButtonPressed(sf::Mouse::Left));
 		_state->update(clock.getElapsedTime().asSeconds());

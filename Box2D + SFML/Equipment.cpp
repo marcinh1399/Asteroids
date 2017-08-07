@@ -2,65 +2,46 @@
 #include "Equipment.h"
 
 
-Equipment::Equipment()
+
+void Equipment::makeHP()
 {
+	type = Type::hp;
 }
 
-
-Equipment::~Equipment()
+void Equipment::makeEngine()
 {
+	type = Type::engine;
 }
 
-void Equipment::makeHP(const unsigned int & level)
+void Equipment::makeAgility()
 {
-	if (level <= max_level)
+	type = Type::agility;
+}
+
+void Equipment::makeArmor()
+{
+	type = Type::armor;
+}
+
+void Equipment::makeBullet()
+{
+	type = Type::bullet;
+}
+
+void Equipment::makeGun()
+{
+	type = Type::gun;
+}
+
+bool Equipment::nextLevel()
+{
+	if (current_level == 10)
 	{
-		current_level = level;
-		stats.hp += (level - current_level) * multiplier_per_level;
+		return false;
 	}
-}
-
-void Equipment::makeEngine(const unsigned int & level)
-{
-	if (level <= max_level)
+	else
 	{
-		current_level = level;
-		stats.speed += (level - current_level) * multiplier_per_level;
-	}
-}
-
-void Equipment::makeAgility(const unsigned int & level)
-{
-	if (level <= max_level)
-	{
-		current_level = level;
-		stats.radians_per_second += (level - current_level) * multiplier_per_level;
-	}
-}
-
-void Equipment::makeArmor(const unsigned int & level)
-{
-	if (level <= max_level)
-	{
-		current_level = level;
-		stats.armor += (level - current_level) * multiplier_per_level;
-	}
-}
-
-void Equipment::makeBullet(const unsigned int & level)
-{
-	if (level <= max_level)
-	{
-		current_level = level;
-		stats.damage_of_bullets += (level - current_level) * multiplier_per_level;
-	}
-}
-
-void Equipment::makeGun(const unsigned int & level)
-{
-	if (level <= max_level)
-	{
-		current_level = level;
-		stats.bullet_cooldown -= (level - current_level) * multiplier_per_level;
+		++current_level;
+		return true;
 	}
 }

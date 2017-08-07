@@ -148,6 +148,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationTimeManager.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AsteroidBuilder.h" />
     <ClInclude Include="AsteroidGenerator.h" />
@@ -156,16 +158,21 @@
     <ClInclude Include="ButtonGenerator.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="IListener.h" />
     <ClInclude Include="IState.h" />
+    <ClInclude Include="KeyboardHandling.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MouseHandling.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectState.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBuilder.h" />
     <ClInclude Include="PressButton.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Spaceship.h" />
-    <ClInclude Include="SpaceshipStats.h" />
+    <ClInclude Include="SpaceshipTypes.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="Statistics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tests.h" />
@@ -177,6 +184,8 @@
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationTimeManager.cpp" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AsteroidBuilder.cpp" />
     <ClCompile Include="AsteroidGenerator.cpp" />
@@ -186,16 +195,20 @@
     <ClCompile Include="ButtonGenerator.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="IListener.cpp" />
     <ClCompile Include="IState.cpp" />
+    <ClCompile Include="KeyboardHandling.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MouseHandling.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBuilder.cpp" />
     <ClCompile Include="PressButton.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Spaceship.cpp" />
-    <ClCompile Include="SpaceshipStats.cpp" />
+    <ClCompile Include="SpaceshipTypes.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

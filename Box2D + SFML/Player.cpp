@@ -2,29 +2,6 @@
 #include "Player.h"
 
 
-void Player::animationOfReborn(const float & delta)
-{
-	time_after_death += delta;
-	
-	int turn = time_after_death / transparency_time;
-
-	if (turn % 2 == 0)
-	{
-		_shape->setOutlineColor(sf::Color::Transparent);
-	}
-	else
-	{
-		_shape->setOutlineColor(shape_color);
-	}
-
-	if (time_after_death > immunity_after_reborn)
-	{
-		is_immune = false;
-		time_after_death = 0.f;
-		_shape->setOutlineColor(shape_color);
-	}
-}
-
 void Player::weaponManagers()
 {
 	_bullet_manager = new WeaponManager(500, 200, 0.25f);
@@ -32,78 +9,88 @@ void Player::weaponManagers()
 	_obstacle_manager = new WeaponManager(5, 0, 60.f);
 }
 
-void Player::updatePosition()
-{
-	position = Coords::translate(_body->GetPosition());
-	_shape->setPosition(position);
-}
-
-
-Player::Player(const float & scl, b2Body * ptr_body, sf::ConvexShape * ptr_shape)
-	: scale(scl), _body(ptr_body), _shape(ptr_shape) 
-{
-	weaponManagers();
-}
-
 Player::~Player()
 {
 	delete _bullet_manager;
 	delete _rocket_manager;
 	delete _obstacle_manager;
-	delete _shape;
 }
 
-b2Body * Player::getBody()
+void Player::handling()
 {
-	return _body;
-}
+	auto _b = _ship->getBody();
+	float turn = 0.f;
+	float turn_per_second = 0.2f;
+	float move = 0.f;
+	float move_per_second = 0.5f;
 
-void Player::hit(const float & dmg)
-{
-	hp -= dmg;
-
-	if (dmg < 0)
+	for (auto key : pressed_keys)
 	{
-		hp = max_hp;
-		--amount_of_lives;
-
-		if (amount_of_lives == 0)
+		switch (key)
 		{
-			/// animation of game end
+		case sf::Keyboard::Key::A: turn -= turn_per_second; break;
+		case sf::Keyboard::Key::D: turn += turn_per_second; break;
+		case sf::Keyboard::Key::W: move += move_per_second; break;
+		case sf::Keyboard::Key::S: move -= move_per_second; break;
 		}
-		else
-		{
-			is_immune = true;
-		}
-
 	}
+
+
+	
+	turn += _b->GetAngularVelocity();
+
+	_b->SetAngularVelocity(turn);
+
+	float alpha = _b->GetAngle();
+
+	b2Vec2 vel{ _b->GetLinearVelocity() };
+	vel.x += sin(alpha) * move;
+	vel.y -= cos(alpha) * move;
+	
+	_b->SetLinearVelocity(vel);
+}
+
+
+Player::Player(Spaceship * ptr_ship, std::shared_ptr<KeyboardHandling> keyboard_handling)
+	: _ship{ ptr_ship },
+	IListener{ keyboard_handling }
+{
+	weaponManagers();
+	keys.push_back(sf::Keyboard::Key::W);
+	keys.push_back(sf::Keyboard::Key::A);
+	keys.push_back(sf::Keyboard::Key::S);
+	keys.push_back(sf::Keyboard::Key::D);
 }
 
 void Player::act(const float & delta)
 {
-	if (is_immune)
-	{
-		animationOfReborn(delta);
-	}
+	_ship->act(delta);
+}
 
+sf::Vector2f Player::getPositionScreen()
+{
+	return _ship->getPosition();
+}
+
+b2Vec2 Player::getPositionWorld()
+{
+	return _ship->getBody()->GetPosition();
+}
+
+float Player::getAngle()
+{
+	return _ship->getBody()->GetAngle();
+}
+
+Spaceship * Player::getShip()
+{
+	return _ship;
 }
 
 sf::Shape * Player::getShape()
 {
-	return _shape;
+	return _ship->getShape();
 }
 
-bool Player::isDestroyed()
-{
-	return false;
-}
 
-sf::Vector2f Player::getPosition()
-{
-	return sf::Vector2f();
-}
 
-bool Player::isReadyToRemove()
-{
-	return false;
-}

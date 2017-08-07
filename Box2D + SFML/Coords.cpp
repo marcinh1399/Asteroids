@@ -30,12 +30,53 @@ float Coords::lengthToScreen(const float & length)
 	return length * to_screen;
 }
 
-constexpr float Coords::radians(const float & deegres)
+float Coords::radians(const float & deegres)
 {
 	return deegres * m_pi / 180.;
 }
 
-constexpr float Coords::deegres(const float & radians)
+float Coords::deegres(const float & radians)
 {
 	return radians * 180.f / m_pi;
+}
+
+b2Vec2 * Coords::translateShape(sf::Vector2f shape[], size_t vertices)
+{
+	b2Vec2 * b2_shape = new b2Vec2[vertices];
+
+	for (int i = 0; i < vertices; ++i)
+	{
+		b2_shape[i] = translate(shape[i]);
+	}
+
+	return b2_shape;
+}
+
+sf::Vector2f * Coords::translateShape(b2Vec2 shape[], size_t vertices)
+{
+	sf::Vector2f * sf_shape = new sf::Vector2f[vertices];
+
+	for (int i = 0; i < vertices; ++i)
+	{
+		sf_shape[i] = translate(shape[i]);
+	}
+
+	return sf_shape;
+}
+
+b2PolygonShape Coords::translateShape(sf::Shape * _shape)
+{
+	b2Vec2 * vertices = new b2Vec2[_shape->getPointCount()];
+
+	for (int i = 0; i < _shape->getPointCount(); ++i)
+	{
+		vertices[i] = translate(_shape->getPoint(i));
+	}
+
+	b2PolygonShape shape;
+	shape.Set(vertices, _shape->getPointCount());
+
+	delete[] vertices;
+
+	return shape;
 }

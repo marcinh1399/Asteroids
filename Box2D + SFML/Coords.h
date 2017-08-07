@@ -21,8 +21,14 @@ public:
 
 	static float lengthToScreen(const float & length);
 
-	static constexpr float radians(const float & deegres);
+	static float radians(const float & deegres);
 
-	static constexpr float deegres(const float & radians);
+	static float deegres(const float & radians);
+
+	static b2Vec2 * translateShape(sf::Vector2f shape[], size_t vertices);
+
+	static sf::Vector2f * translateShape(b2Vec2 shape[], size_t vertices);
+
+	static b2PolygonShape translateShape(sf::Shape * _shape);
 };
 

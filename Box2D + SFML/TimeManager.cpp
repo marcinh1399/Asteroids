@@ -4,31 +4,34 @@
 
 
 
-TimeManager::TimeManager(const int & waiting_time)
-	: cooldown(waiting_time) {}
-
-void TimeManager::update(const float & delta)
+TimeManager::TimeManager(const float & waiting_time, bool ready_to_use)
+	: cooldown{ waiting_time }, const_cooldown{ waiting_time }
 {
-	time_after_last_use += delta;
-
-	if (time_after_last_use >= cooldown)
+	if (ready_to_use)
 	{
-		percent = 100.f;
+		time_after_last_use = INFINITY;
 	}
 	else
 	{
-		percent = time_after_last_use * 100.f / cooldown;
+		time_after_last_use = 0;
 	}
+}
+
+
+TimeManager & TimeManager::operator+=(const float & delta)
+{
+	time_after_last_use += delta;
+	
+	return *this;
 }
 
 bool TimeManager::use()
 {
-	bool ready = time_after_last_use > cooldown;
+	bool ready = time_after_last_use >= cooldown;
 
 	if (ready)
 	{
 		time_after_last_use = 0.f;
-		percent = 0.f;
 	}
 
 	return ready;
@@ -41,7 +44,12 @@ bool TimeManager::isReady()
 
 float TimeManager::getPercentageValue()
 {
-	return percent;
+	return (time_after_last_use >= cooldown) ? 100.f : (time_after_last_use / cooldown);
+}
+
+void TimeManager::multiplierCooldown(const float & multiplier)
+{
+	cooldown = const_cooldown * multiplier;
 }
 
 TimeManager::~TimeManager()

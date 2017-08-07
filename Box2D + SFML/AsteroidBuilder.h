@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Box2D\Box2D.h"
 #include "SFML\Graphics.hpp"
 #include "Asteroid.h"
@@ -7,9 +6,9 @@
 #include <vector>
 #include <memory>
 #include "Tests.h"
+#include "Coords.h"
 
-#define M_PI 3.14159265359
-#define SCALE 0.05
+
 #define MIN_DENSITY 50
 #define RND_DENSITY	50
 #define SCL_DENSITY 0.1
@@ -35,7 +34,6 @@ private:
 
 
 	float stamina;
-	float scale;
 	int amount_of_vertices;
 	sf::ConvexShape * _shape;
 	b2Vec2 world_position{ 0.f, 0.f };
@@ -71,7 +69,7 @@ private:
 	
 
 public:
-	AsteroidBuilder(int max_radius, float scale, std::unique_ptr<b2World> & unique_world);
+	AsteroidBuilder(int max_radius, std::unique_ptr<b2World> & unique_world);
 
 	~AsteroidBuilder();
 

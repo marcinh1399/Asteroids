@@ -29,8 +29,10 @@ bool MenuState::loadButtonsFromFile()
 	return load;
 }
 
-MenuState::MenuState(std::unique_ptr<StateManager> & u_manager, std::unique_ptr<sf::RenderWindow> & u_window, int width, int height)
-	: IState(u_manager, u_window, width, height)
+MenuState::MenuState(std::unique_ptr<StateManager> & u_manager, 
+	std::unique_ptr<sf::RenderWindow> & u_window, int width, int height,
+	std::shared_ptr<KeyboardHandling> keyboard)
+	: IState(u_manager, u_window, width, height, keyboard)
 {
 	_generator = new ButtonGenerator(width, height);
 	file_with_names.open(path_to_buttons, std::ios::in);

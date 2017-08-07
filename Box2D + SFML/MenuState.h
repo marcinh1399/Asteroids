@@ -28,7 +28,9 @@ private :
 
 
 public:
-	MenuState(std::unique_ptr<StateManager> & u_manager, std::unique_ptr<sf::RenderWindow> & u_window, int width, int height);
+	MenuState(std::unique_ptr<StateManager> & u_manager, 
+		std::unique_ptr<sf::RenderWindow> & u_window, int width, int height,
+		std::shared_ptr<KeyboardHandling> keyboard);
 
 	virtual void show() override;
 

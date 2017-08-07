@@ -3,50 +3,55 @@ class Equipment
 {
 
 private:
-	unsigned int current_level;
 
-	float multiplier_per_level = 1.3;
+	enum class Type
+	{
+		hp,
+		engine,
+		agility,
+		armor,
+		bullet,
+		gun
+	};
 
-	const int max_level = 10;
+	Type type;
+
+	const int max_level{ 10 };
+	unsigned int current_level{ 0 };
+
+	const float multiplier_per_level{ 1.2f };
+	const float multiplier_cooldown{ 0.9f };
 
 public:
- // remember to initilize
-
-
 
 	struct Stats
 	{
-		unsigned int hp{ 0 };
-		unsigned int speed{ 0 };
-		unsigned int radians_per_second{ 0 };
-		unsigned int armor{ 0 };
-		unsigned int damage_of_bullets{ 0 };
-		unsigned int bullet_cooldown{ 0 };
+		float hp{ 1.f };
+		float speed{ 1.f };
+		float radians_per_second{ 1.f };
+		float armor{ 1.f };
+		float damage_of_bullets{ 1.f };
+		float bullet_cooldown{ 1.f };
 	};
 
 	Stats stats;
 
 	
-	void makeHP(const unsigned int & level);
+	void makeHP();
 
+	void makeEngine();
 
-	void makeEngine(const unsigned int & level);
+	void makeAgility();
+	
+	void makeArmor();
 
+	void makeBullet();
 
-	void makeAgility(const unsigned int & level);
+	void makeGun();
 
 	
-	void makeArmor(const unsigned int & level);
-	
-
-	void makeBullet(const unsigned int & level);
-
-
-	void makeGun(const unsigned int & level);
+	bool nextLevel();
 
 	
-
-	Equipment();
-	~Equipment();
 };
 

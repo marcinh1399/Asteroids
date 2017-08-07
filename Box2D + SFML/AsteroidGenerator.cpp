@@ -30,14 +30,10 @@ sf::Vector2f AsteroidGenerator::getRandomScreenPosition()
 	return sf::Vector2f(x, y);
 }
 
-b2Vec2 AsteroidGenerator::translateToWorldCoordinates(sf::Vector2f v)
-{
-	return b2Vec2(v.x / scale, v.y / scale);
-}
 
 b2Vec2 AsteroidGenerator::getRandomLinearVelocity(sf::Vector2f position)
 {
-	float speed = (rand() % rnd_speed + min_speed) / 10;
+	float speed = (rand() % rnd_speed + min_speed) / 200;
 
 	int offset = 250;
 	int x_range = screen_width - 2 * offset;
@@ -53,25 +49,25 @@ b2Vec2 AsteroidGenerator::getRandomLinearVelocity(sf::Vector2f position)
 
 	float speed_scale = speed / distance;
 
-	return b2Vec2(-delta_x * speed_scale / scale, -delta_y * speed_scale / scale);
+	return b2Vec2(-delta_x * speed_scale, -delta_y * speed_scale);
 }
 
 float AsteroidGenerator::getRandomAngularVelocity()
 {
-	return (rand() % rnd_angle_per_second + min_angle_per_second) * M_PI / 180.f ;
+	return Coords::radians(rand() % rnd_angle_per_second + min_angle_per_second);
 }
 
 AsteroidGenerator::AsteroidGenerator(std::unique_ptr<b2World>& _world, int screen_width, int screen_height)
 {
 	this->screen_width = screen_width;
 	this->screen_height = screen_height;
-	_builder = new AsteroidBuilder(100, 20, _world);
+	_builder = new AsteroidBuilder(100, _world);
 }
 
 Asteroid * AsteroidGenerator::makeAsteroid()
 {
 	sf::Vector2f screen_position = getRandomScreenPosition();
-	b2Vec2 world_position = translateToWorldCoordinates(screen_position);
+	b2Vec2 world_position = Coords::translate(screen_position);
 	float angular_velocity = getRandomAngularVelocity();
 	b2Vec2 linear_velocity = getRandomLinearVelocity(screen_position);
 

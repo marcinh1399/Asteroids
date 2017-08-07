@@ -8,10 +8,9 @@ void AsteroidBuilder::setRangeOfRadius(const int & max_radius)
 	min_radius = rnd_radius = max_radius / 2;
 }
 
-AsteroidBuilder::AsteroidBuilder(int max_radius, float scale, std::unique_ptr<b2World> & unique_world) : _world(unique_world)
+AsteroidBuilder::AsteroidBuilder(int max_radius, std::unique_ptr<b2World> & unique_world) : _world(unique_world)
 {
 	setRangeOfRadius(max_radius);
-	this->scale = scale;
 }
 
 AsteroidBuilder::~AsteroidBuilder()
@@ -34,7 +33,8 @@ AsteroidBuilder * AsteroidBuilder::setScreenPosition(sf::Vector2f position)
 AsteroidBuilder * AsteroidBuilder::setSfmlShape()
 {
 	amount_of_vertices = rand() % rnd_vertices + min_vertices;
-	int angle_range = 360 / amount_of_vertices;
+	float angle_range = 360.f / amount_of_vertices;
+	int int_angle_range = static_cast<int>(angle_range);
 
 	sf_vertices = new sf::Vector2f[amount_of_vertices];
 
@@ -42,8 +42,8 @@ AsteroidBuilder * AsteroidBuilder::setSfmlShape()
 	for (int i = 0; i < amount_of_vertices; ++i)
 	{
 		int length = min_radius + rand() % rnd_radius;
-		int angle = rand() % angle_range + i * angle_range;
-		float radians = angle * M_PI / 180.f;
+		float angle = rand() % int_angle_range + i * angle_range;
+		float radians = Coords::radians(angle);
 		float x = sinf(radians) * length;
 		float y = cosf(radians) * length;
 
@@ -72,9 +72,7 @@ AsteroidBuilder * AsteroidBuilder::setBox2DShape()
 
 	for (int i = 0; i < amount_of_vertices; ++i)
 	{
-		float x = sf_vertices[i].x / scale;
-		float y = sf_vertices[i].y / scale;
-		b2_vertices[i].Set(x, y);
+		b2_vertices[i] = Coords::translate(sf_vertices[i]);
 	}
 
 	return this;
@@ -122,22 +120,24 @@ AsteroidBuilder * AsteroidBuilder::setAngularVelocity(float angle)
 
 Asteroid * AsteroidBuilder::build()
 {
-	Asteroid * _asteroid = new Asteroid(stamina, scale, _body, _shape);
+	Asteroid * _asteroid = new Asteroid(stamina, _body, _shape, _body->GetMass());
 	
 	delete[] b2_vertices;
 	delete[] sf_vertices;
+
 
 	return _asteroid;
 }
 
 
-
 float AsteroidBuilder::randDensity()
 {
-	return (rand() % RND_DENSITY + MIN_DENSITY) * SCL_DENSITY;
+	return static_cast<float>((rand() % RND_DENSITY + MIN_DENSITY) * SCL_DENSITY);
 }
+
 
 float AsteroidBuilder::randFriction()
 {
-	return (rand() % RND_FRICTION + MIN_FRICTION) * SCL_FRICTION;
+	return static_cast<float>((rand() % RND_FRICTION + MIN_FRICTION) * SCL_FRICTION);
 }
+

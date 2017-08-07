@@ -7,7 +7,7 @@ WeaponManager::WeaponManager(const unsigned int & max_bullets,
 				unsigned int how_much_bullets, float cooldown)
 	: max_quantity{ max_bullets }, 
 	quantity{ how_much_bullets },
-	_time_manager{ new TimeManager(cooldown)}
+	_time_manager{ new TimeManager(cooldown, true)}
 {
 }
 
@@ -62,7 +62,7 @@ bool WeaponManager::lackOfBullets()
 
 void WeaponManager::update(const float & delta)
 {
-	_time_manager->update(delta);
+	(*_time_manager) += delta;
 }
 
 void WeaponManager::addAmountOfBullets(const int & amount)
@@ -77,18 +77,7 @@ void WeaponManager::addAmountOfBullets(const int & amount)
 
 void WeaponManager::deleteBullets()
 {
-	for (auto iter = bullets.begin(); iter != bullets.end();)
-	{
-		if ((*iter)->isDestroyed())
-		{
-			delete (*iter);
-			iter = bullets.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
+	
 }
 
 

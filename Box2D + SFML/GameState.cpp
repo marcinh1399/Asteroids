@@ -4,11 +4,14 @@
 
 
 
-GameState::GameState(std::unique_ptr<StateManager>& u_manager, std::unique_ptr<sf::RenderWindow>& u_window, int width, int height)
-	: IState(u_manager, u_window, width, height)
+GameState::GameState(std::unique_ptr<StateManager>& u_manager, 
+	std::unique_ptr<sf::RenderWindow>& u_window, int width, int height,
+	std::shared_ptr<KeyboardHandling> keyboard)
+	: IState(u_manager, u_window, width, height, keyboard)
 {
-	_world_manager = std::make_unique<WorldManager>(width, height, objects);
-	_screen_manager = std::make_unique<ScreenManager>(objects, _window);
+	_world_manager = std::make_unique<WorldManager>(width, height, objects, expl_animations, keyboard);
+	_screen_manager = std::make_unique<ScreenManager>(objects, expl_animations, _window);
+	
 }
 
 GameState::~GameState()

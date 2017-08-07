@@ -32,7 +32,39 @@ private:
 	
 	void setPosition();
 
-	b2Body * setBody(sf::Shape * _shape);
+	b2Body * setBody(sf::Shape * _shape)
+	{
+		b2BodyDef body_def;
+		body_def.position = world_position;
+		body_def.type = b2_dynamicBody;
+
+		b2Body * _body = _world->CreateBody(&body_def);
+
+		b2Vec2 * vertices = new b2Vec2[_shape->getPointCount()];
+
+		for (int i = 0; i < _shape->getPointCount(); ++i)
+		{
+			vertices[i] = Coords::translate(_shape->getPoint(i));
+		}
+
+		b2PolygonShape b2_shape;
+		b2_shape.Set(vertices, _shape->getPointCount());
+
+		delete[] vertices;
+
+		b2FixtureDef fixture_def;
+		fixture_def.shape = &b2_shape;
+		fixture_def.density = density;
+		fixture_def.friction = friction;
+		fixture_def.restitution = restitution;
+		// ???
+		fixture_def.filter.groupIndex = group_of_player_body;
+		// ???
+
+		_body->CreateFixture(&fixture_def);
+
+		return _body;
+	}
 
 	b2Body * setCircleBody(sf::CircleShape * _shape);
 

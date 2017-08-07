@@ -1,67 +1,57 @@
 #pragma once
 #include "Object.h"
 #include "WeaponManager.h"
-#include "Coords.h"
+#include "Spaceship.h"
+#include <list>
+#include "IListener.h"
+#include "KeyboardHandling.h"
+#include <memory>
+#include <algorithm>
 
 
 class WeaponManager;
 
-class Player :
-	public Object
+class Player
+	: IListener
 {
 
-
 private:
-	
-	const float scale;
-	
-	const float max_hp{ 1000.f }; // is not final value
+
+	TimeManager immune_time{ 5.f, false };
+	TimeManager transp_time{ 0.15f, false };
+
 	const int max_lives{ 3 };
 	const int initial_lives{ 1 };
-	const float immunity_after_reborn{ 5.f };
-	const float transparency_time{ 0.15f };
-	sf::Vector2f position;
+	int amount_of_lives;
 
 	WeaponManager * _bullet_manager;
 	WeaponManager * _rocket_manager;
 	WeaponManager * _obstacle_manager;
 
-	
-	sf::Color shape_color{ sf::Color::Cyan };
-	sf::ConvexShape * _shape;
-	b2Body * _body;
-	int amount_of_lives;
-	float hp;
-	
-	float time_after_death{ 0.f };
-	bool is_immune{ true };
-
-
-
-	void animationOfReborn(const float & delta);
+	Spaceship * _ship;
 
 	void weaponManagers();
 
-	void updatePosition();
-
+	// Inherited via IListener
+	virtual void handling() override;
 
 
 public:
-	Player(const float & scl, b2Body * ptr_body, sf::ConvexShape * ptr_shape);
+	Player(Spaceship * ptr_ship, std::shared_ptr<KeyboardHandling> keyboard_handling);
+
+	void act(const float & delta);
+
+	sf::Vector2f getPositionScreen();
+
+	b2Vec2 getPositionWorld();
+
+	float getAngle();
+
+	Spaceship * getShip();
+
+	sf::Shape * getShape();
+
 	~Player();
 
-	virtual b2Body * getBody() override;
-
-	virtual void hit(const float & dmg) override;
-	
-	virtual void act(const float & delta) override;
-	
-	virtual sf::Shape * getShape() override;
-	
-	virtual bool isDestroyed() override;
-	
-	virtual sf::Vector2f getPosition() override;
-	
-	virtual bool isReadyToRemove() override;
 };
 

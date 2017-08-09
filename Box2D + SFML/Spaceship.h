@@ -14,7 +14,12 @@ class Spaceship
 
 private:
 
-	Statistics stats;
+	Statistics basic_stats;
+	Statistics current_stats;
+
+
+	int current_stats_version;
+
 
 	TimeManager immune_time{ 5.f, false };
 	Animation * _animation;
@@ -24,28 +29,25 @@ private:
 
 
 	
-	std::array<Equipment, 6> equipment;
+	//std::array<Equipment, 6> equipment;
 
 
-	void setEq();
+	
 
 	void animationOfReborn(const float & delta);
+
+	void update();
 	
 
 public:
-	Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, float dmg, Statistics statistics);
+	Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, 
+		float dmg, Statistics statistics);
 
-	bool improveHP();
+	Spaceship(b2Body * ptr_body, sf::Shape * ptr_shape, Statistics statistics);
 
-	bool improveEngine();
+	Statistics getCurrentStats();
 
-	bool improveAgility();
-
-	bool improveArmor();
-
-	bool improveBullet();
-
-	bool improveGun();
+	void improveEq(Equipment::Type type);
 
 	~Spaceship();
 

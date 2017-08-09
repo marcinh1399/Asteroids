@@ -1,5 +1,7 @@
 #pragma once
 #include "SFML\Graphics.hpp"
+#include <utility>
+#include "Bullet.h"
 
 
 class BulletShapes
@@ -12,6 +14,21 @@ private:
 	sf::CircleShape * _bullet;
 	sf::ConvexShape * _rocket;
 	sf::RectangleShape * _obstacle;
+
+
+	////			HP			////
+	const float bullet_hp{ 50.f };
+	const float rocket_hp{ 200.f };
+	const float obstacle_hp{ 1000.f };
+	////////////////////////////////
+
+
+	////		SPEED			////
+	const float bullet_speed{ 200.f };
+	const float rocket_speed{ 120.f };
+	const float obstacle_speed{ 0.f };
+	////////////////////////////////
+
 	
 
 	void loadShapes();
@@ -21,11 +38,11 @@ public:
 
 	BulletShapes();
 
-	sf::CircleShape * getBulletShape();
+	sf::Shape * getShape(Bullet::Type type);
 
-	sf::ConvexShape * getRocketShape();
+	float getSpeed(Bullet::Type type);
 
-	sf::RectangleShape * getObstacleShape();
+	float getHP(Bullet::Type type);
 
 	~BulletShapes();
 };

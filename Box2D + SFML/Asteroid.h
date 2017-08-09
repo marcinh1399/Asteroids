@@ -13,14 +13,13 @@ class Asteroid :
 private :
 
 	TimeManager create_time{ 6.f, false };
-	
-	Asteroid(float hp, b2Body * ptr_body, sf::Shape * _shape, float dmg);
 
 public:
 
-	~Asteroid();
+	// New Constructor 
+	Asteroid(b2Body * body, sf::Shape * shape);
 
-	friend class AsteroidBuilder;
+	~Asteroid();
 
 	// Inherited via Object
 	virtual void act(const float & delta) override;

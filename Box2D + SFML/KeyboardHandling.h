@@ -17,7 +17,7 @@ private:
 	std::list<sf::Keyboard::Key> pressed_keys;
 	std::vector<IListener *> listeners;
 
-	void sendKeysToListeners();
+	void sendKeysToListeners(const float & delta);
 
 
 public:
@@ -26,7 +26,7 @@ public:
 
 	void unregisterListener(IListener * listener);
 
-	void update();
+	void update(const float & delta);
 
 	~KeyboardHandling();
 };

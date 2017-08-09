@@ -1,18 +1,22 @@
 #pragma once
+#include "Statistics.h"
+
 class Equipment
 {
 
-private:
+public:
 
 	enum class Type
 	{
-		hp,
+		hp = 0,
 		engine,
 		agility,
 		armor,
 		bullet,
 		gun
 	};
+
+private:
 
 	Type type;
 
@@ -24,34 +28,15 @@ private:
 
 public:
 
-	struct Stats
-	{
-		float hp{ 1.f };
-		float speed{ 1.f };
-		float radians_per_second{ 1.f };
-		float armor{ 1.f };
-		float damage_of_bullets{ 1.f };
-		float bullet_cooldown{ 1.f };
-	};
+	Equipment(Type type);
 
-	Stats stats;
+	Statistics stats{ 0.f, 0.f, 0.f, 0.f, 0.f, 0.f };
 
-	
-	void makeHP();
+	int getLevel();
 
-	void makeEngine();
+	int getMaxLevel();
 
-	void makeAgility();
-	
-	void makeArmor();
+	void nextLevel();
 
-	void makeBullet();
-
-	void makeGun();
-
-	
-	bool nextLevel();
-
-	
 };
 

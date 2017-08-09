@@ -1,6 +1,9 @@
 #pragma once
 #include <Box2D\Box2D.h>
 #include <SFML\Graphics.hpp>
+#include <memory>
+
+
 
 class Coords
 {
@@ -29,6 +32,6 @@ public:
 
 	static sf::Vector2f * translateShape(b2Vec2 shape[], size_t vertices);
 
-	static b2PolygonShape translateShape(sf::Shape * _shape);
+	static std::shared_ptr<b2Shape> translateShape(sf::Shape * _shape);
 };
 

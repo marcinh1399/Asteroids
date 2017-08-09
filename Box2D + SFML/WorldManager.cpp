@@ -13,11 +13,12 @@ void WorldManager::newAsteroid(const float & delta)
 	{
 		if (rand() % 100 > 85)
 		{
-			std::unique_ptr<Object> ptr(_generator->makeAsteroid());
+			std::unique_ptr<Object> ptr = _factory->makeAsteroid();
+			printf("Mass = %f.3\n", ptr->getBody()->GetMass());
 			objects.push_back(std::move(ptr));
 			asteroids_on_map++;
 			time_manager.use();
-			printf("asteroids: %d | objects: %d\n\n", asteroids_on_map, objects.size());
+			 //"asteroids: %d | objects: %d\n\n", asteroids_on_map, objects.size());
 		}
 	}
 }
@@ -120,11 +121,14 @@ WorldManager::WorldManager(int screen_width, int screen_height,
 {
 
 	_world = std::make_unique<b2World>(b2Vec2{ 0.f, 0.f });
-	_generator = std::make_unique<AsteroidGenerator>(_world, screen_width, screen_height);
-	PlayerBuilder player_builder{ _world, sf::Vector2f(screen_width / 2, screen_height / 2) };
-	player = player_builder.makePlayer(ShipType::type1, keyboard);
-	std::unique_ptr<Object> ptr(player->getShip());
-	objects.push_back(std::move(ptr));
+	_factory = std::make_unique<Factory>(_world, sf::Vector2f( screen_width, screen_height ));
+
+	auto ship = _factory->makeSpaceship(sf::Vector2f(screen_width / 2, screen_height / 2), 
+		SpaceshipTypes::ShipType::type1);
+
+	player = _factory->makePlayer(ship, keyboard); 
+	objects.push_back(std::move(ship));
+	
 	this->screen_width = screen_width;
 	this->screen_height = screen_height;
 }

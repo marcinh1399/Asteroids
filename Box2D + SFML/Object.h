@@ -25,6 +25,8 @@ public:
 
 	Object(float hp, b2Body * body, sf::Shape * shape, float dmg);
 
+	Object(b2Body * body, sf::Shape * shape);
+
 	b2Body * getBody();
 
 	sf::Shape * getShape();

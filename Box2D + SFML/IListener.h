@@ -18,14 +18,14 @@ protected:
 	std::vector<sf::Keyboard::Key> keys;
 	std::list<sf::Keyboard::Key> pressed_keys;
 
-	virtual void handling() = 0;
+	virtual void handling(const float & delta) = 0;
 
 public:
 	IListener(std::shared_ptr<KeyboardHandling> keyboard);
 
 	IListener & operator+=(const sf::Keyboard::Key & key);
 
-	void setList(std::list<sf::Keyboard::Key> & _keys);
+	void setList(std::list<sf::Keyboard::Key> & _keys, const float & delta);
 
 	virtual ~IListener();
 };

@@ -151,12 +151,11 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationTimeManager.h" />
     <ClInclude Include="Asteroid.h" />
-    <ClInclude Include="AsteroidBuilder.h" />
     <ClInclude Include="AsteroidGenerator.h" />
-    <ClInclude Include="BulletBuilder.h" />
     <ClInclude Include="ButtonBuilder.h" />
     <ClInclude Include="ButtonGenerator.h" />
     <ClInclude Include="Equipment.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="IListener.h" />
     <ClInclude Include="IState.h" />
@@ -166,7 +165,6 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectState.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBuilder.h" />
     <ClInclude Include="PressButton.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Spaceship.h" />
@@ -187,13 +185,12 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationTimeManager.cpp" />
     <ClCompile Include="Asteroid.cpp" />
-    <ClCompile Include="AsteroidBuilder.cpp" />
     <ClCompile Include="AsteroidGenerator.cpp" />
     <ClCompile Include="Box2D + SFML.cpp" />
-    <ClCompile Include="BulletBuilder.cpp" />
     <ClCompile Include="ButtonBuilder.cpp" />
     <ClCompile Include="ButtonGenerator.cpp" />
     <ClCompile Include="Equipment.cpp" />
+    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="IListener.cpp" />
     <ClCompile Include="IState.cpp" />
@@ -202,7 +199,6 @@
     <ClCompile Include="MouseHandling.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBuilder.cpp" />
     <ClCompile Include="PressButton.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Spaceship.cpp" />

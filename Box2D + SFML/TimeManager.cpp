@@ -25,6 +25,13 @@ TimeManager & TimeManager::operator+=(const float & delta)
 	return *this;
 }
 
+TimeManager & TimeManager::operator*=(const float & multiplier)
+{
+	cooldown = const_cooldown * multiplier;
+
+	return *this;
+}
+
 bool TimeManager::use()
 {
 	bool ready = time_after_last_use >= cooldown;
@@ -47,10 +54,6 @@ float TimeManager::getPercentageValue()
 	return (time_after_last_use >= cooldown) ? 100.f : (time_after_last_use / cooldown);
 }
 
-void TimeManager::multiplierCooldown(const float & multiplier)
-{
-	cooldown = const_cooldown * multiplier;
-}
 
 TimeManager::~TimeManager()
 {

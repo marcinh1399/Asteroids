@@ -64,19 +64,33 @@ sf::Vector2f * Coords::translateShape(b2Vec2 shape[], size_t vertices)
 	return sf_shape;
 }
 
-b2PolygonShape Coords::translateShape(sf::Shape * _shape)
-{
-	b2Vec2 * vertices = new b2Vec2[_shape->getPointCount()];
 
-	for (int i = 0; i < _shape->getPointCount(); ++i)
+
+std::shared_ptr<b2Shape> Coords::translateShape(sf::Shape * sf_shape)
+{
+	std::shared_ptr<b2Shape> ptr;
+
+	if (auto sf_circle = dynamic_cast<sf::CircleShape *>(sf_shape))
 	{
-		vertices[i] = translate(_shape->getPoint(i));
+		ptr = std::make_shared<b2CircleShape>();
+		ptr->m_radius = lengthToWorld(sf_circle->getRadius());
+	}
+	else 
+	{
+		b2Vec2 * vertices = new b2Vec2[sf_shape->getPointCount()];
+
+		for (int i = 0; i < sf_shape->getPointCount(); ++i)
+		{
+			vertices[i] = translate(sf_shape->getPoint(i));
+		}
+		
+	
+		ptr = std::make_shared<b2PolygonShape>();
+		std::static_pointer_cast<b2PolygonShape>(ptr)->Set(vertices, sf_shape->getPointCount());
+		printf("Points: %d\n", sf_shape->getPointCount());
+
+		delete[] vertices;
 	}
 
-	b2PolygonShape shape;
-	shape.Set(vertices, _shape->getPointCount());
-
-	delete[] vertices;
-
-	return shape;
+	return ptr;
 }

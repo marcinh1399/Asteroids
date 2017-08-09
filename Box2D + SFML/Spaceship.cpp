@@ -2,15 +2,6 @@
 #include "Spaceship.h"
 
 
-void Spaceship::setEq()
-{
-	equipment[0].makeHP();
-	equipment[1].makeEngine();
-	equipment[2].makeAgility();
-	equipment[3].makeArmor();
-	equipment[4].makeBullet();
-	equipment[5].makeGun();
-}
 
 void Spaceship::animationOfReborn(const float & delta)
 {
@@ -21,14 +12,41 @@ void Spaceship::animationOfReborn(const float & delta)
 	{
 		_shape = _copy_of_shape;
 		state = ObjectState::alive;
-		//printf("CTKMB\n");
 	}
 }
 
-
-Spaceship::Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, float dmg, Statistics statistics)
-	: Object{ hp, ptr_body, ptr_shape, dmg }
+Statistics Spaceship::getCurrentStats()
 {
+	return current_stats;
+}
+
+
+
+void Spaceship::update()
+{
+	current_stats.reset();
+/*
+	for (auto eq : equipment)
+	{
+		current_stats += eq.stats;
+	}
+	*/
+
+	current_stats.fill();
+
+	current_stats *= basic_stats;
+}
+
+
+Spaceship::Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, 
+	float dmg, Statistics statistics)
+	: Object{ hp, ptr_body, ptr_shape, dmg },
+	basic_stats{ statistics },
+	current_stats{ statistics }
+{
+	basic_stats.hp *= hp;
+
+	current_stats_version = 0;
 	state = ObjectState::immune;
 	_body->SetUserData(this);
 	_copy_of_shape = ptr_shape;
@@ -42,41 +60,29 @@ Spaceship::Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, float d
 	_animation = new Animation(frames, 0.15f, true);
 }
 
-bool Spaceship::improveHP()
+Spaceship::Spaceship(b2Body * ptr_body, sf::Shape * ptr_shape, Statistics statistics)
+	: Object(ptr_body, ptr_shape),
+	basic_stats(statistics),
+	current_stats(statistics)
 {
-	return equipment[0].nextLevel();;
+	current_stats_version = 0;
+	state = ObjectState::immune;
+	_body->SetUserData(this);
+	_copy_of_shape = ptr_shape;
+	sf::ConvexShape * shape = dynamic_cast<sf::ConvexShape *>(_shape);
+	sf::Shape * first = new sf::ConvexShape(*shape);
+	first->setOutlineColor(sf::Color::Transparent);
+	sf::Shape * second = new sf::ConvexShape(*shape);
+	std::vector<sf::Shape *> frames;
+	frames.push_back(first);
+	frames.push_back(second);
+	_animation = new Animation(frames, 0.15f, true);
 }
 
-bool Spaceship::improveEngine()
-{
-	return equipment[1].nextLevel();
-}
-
-bool Spaceship::improveAgility()
-{
-	return equipment[2].nextLevel();
-}
-
-bool Spaceship::improveArmor()
-{
-	return equipment[3].nextLevel();
-}
-
-bool Spaceship::improveBullet()
-{
-	return equipment[4].nextLevel();
-}
-
-bool Spaceship::improveGun()
-{
-	return equipment[5].nextLevel();
-}
 
 
 void Spaceship::act(const float & delta)
 {
-	
-	
 	if (state == ObjectState::immune)
 	{
 		animationOfReborn(delta);

@@ -23,7 +23,6 @@ void BulletShapes::loadShapes()
 		_rocket->setPoint(i, rocket[i]);
 	}
 
-
 }
 
 BulletShapes::BulletShapes()
@@ -31,19 +30,46 @@ BulletShapes::BulletShapes()
 	loadShapes();
 }
 
-sf::CircleShape * BulletShapes::getBulletShape()
+sf::Shape * BulletShapes::getShape(Bullet::Type type)
 {
-	return new sf::CircleShape(*_bullet);
+	sf::Shape * shape = nullptr;
+
+	switch (type)
+	{
+	case Bullet::Type::bullet:		shape = new sf::CircleShape(*_bullet);		break;
+	case Bullet::Type::rocket:		shape = new sf::ConvexShape(*_rocket);		break;
+	case Bullet::Type::obstacle:	shape = new sf::RectangleShape(*_obstacle);	break;
+	}
+
+	return shape;
 }
 
-sf::ConvexShape * BulletShapes::getRocketShape()
+float BulletShapes::getSpeed(Bullet::Type type)
 {
-	return new sf::ConvexShape(*_rocket);
+	float speed = 0.f;
+
+	switch (type)
+	{
+		case Bullet::Type::bullet:		speed = bullet_speed;	break;
+		case Bullet::Type::rocket:		speed = rocket_speed;	break;
+		case Bullet::Type::obstacle:	speed = obstacle_speed; break;
+	}
+
+	return speed;
 }
 
-sf::RectangleShape * BulletShapes::getObstacleShape()
+float BulletShapes::getHP(Bullet::Type type)
 {
-	return new sf::RectangleShape(*_obstacle);
+	float hp = 0.f;
+
+	switch (type)
+	{
+	case Bullet::Type::bullet:		hp = bullet_hp;		break;
+	case Bullet::Type::rocket:		hp = rocket_hp;		break;
+	case Bullet::Type::obstacle:	hp = obstacle_hp;	break;
+	}
+
+	return hp;
 }
 
 

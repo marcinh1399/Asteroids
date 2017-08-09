@@ -11,6 +11,14 @@ Object::Object(float hp, b2Body * body, sf::Shape * shape, float dmg)
 	state = ObjectState::created;
 }
 
+Object::Object(b2Body * body, sf::Shape * shape)
+	: _body(body),
+	_shape(shape)
+{
+	damage = stamina = body->GetMass();
+	state = ObjectState::created;
+}
+
 Object::~Object()
 {
 	delete _shape;

@@ -2,42 +2,71 @@
 #include "AsteroidGenerator.h"
 
 
-sf::Vector2f AsteroidGenerator::getRandomScreenPosition()
+AsteroidGenerator::AsteroidGenerator(int width, int height)
+{
+	world_width = width;
+	world_height = height;
+}
+
+
+sf::ConvexShape * AsteroidGenerator::makeShape()
+{
+	size_t number_of_vertices = rand() % rnd_vertices + min_vertices;
+	
+	float f_angle = 360 / number_of_vertices;
+	int angle = static_cast<int>(f_angle);
+
+	sf::ConvexShape * shape = new sf::ConvexShape(number_of_vertices);
+
+	for (int i = 0; i < number_of_vertices; ++i)
+	{
+		int alpha = Coords::radians(f_angle * i + rand() % angle);
+		int length = min_radius + rand() % rnd_radius;
+		shape->setPoint(i, sf::Vector2f( sin(alpha) * length, cos(alpha) * length ));
+	}
+
+	shape->setOutlineThickness(outline_thickness);
+	shape->setOutlineColor(outline_color);
+	shape->setFillColor(fill_color);
+
+	return shape;
+}
+
+sf::Vector2f AsteroidGenerator::getPosition()
 {
 	int side_of_screen = rand() % 4;
 	int x, y;
 
 	switch (side_of_screen)
 	{
-		case 0:	
-			y = -100; 
-			x = rand() % (screen_width + 200) - 100;
+		case 0:
+			x = rand() % (world_width + 400) - 200;
+			y = -200;
 			break;
-		case 1: 
-			x = screen_width + 100;
-			y = rand() % (screen_height + 200) - 100;
+		case 1:
+			x = world_width + 200;
+			y = rand() % (world_width + 400) - 200;
 			break;
-		case 2: 
-			y = screen_height + 100;
-			x = rand() % (screen_width + 200) - 100; 
+		case 2:
+			x = rand() % (world_width + 400) - 200;
+			y = world_height + 200;
 			break;
-		case 3: 
-			x = -100;
-			y = rand() % (screen_height + 200) - 100; 
+		case 3:
+			x = -200;
+			y = rand() % (world_height + 400) - 200;
 			break;
 	}
 
 	return sf::Vector2f(x, y);
 }
 
-
-b2Vec2 AsteroidGenerator::getRandomLinearVelocity(sf::Vector2f position)
+b2Vec2 AsteroidGenerator::getLinearVelocity(sf::Vector2f position)
 {
-	float speed = (rand() % rnd_speed + min_speed) / 200;
+	float speed = ((rand() % rnd_speed) + min_speed) / static_cast<float>(div_speed);
 
-	int offset = 250;
-	int x_range = screen_width - 2 * offset;
-	int y_range = screen_height - 2 * offset;
+	int offset = 100;
+	int x_range = world_width - 2 * offset;
+	int y_range = world_height - 2 * offset;
 
 	int x = rand() % x_range + offset;
 	int y = rand() % y_range + offset;
@@ -47,45 +76,27 @@ b2Vec2 AsteroidGenerator::getRandomLinearVelocity(sf::Vector2f position)
 
 	float distance = sqrt(delta_x * delta_x + delta_y * delta_y);
 
-	float speed_scale = speed / distance;
+	float scale = -(speed / distance);
 
-	return b2Vec2(-delta_x * speed_scale, -delta_y * speed_scale);
+	return b2Vec2(delta_x * scale, delta_y * scale);
 }
 
-float AsteroidGenerator::getRandomAngularVelocity()
+float AsteroidGenerator::getAngularVelocity()
 {
-	return Coords::radians(rand() % rnd_angle_per_second + min_angle_per_second);
+	return (rand() % max_radians_per_second) / static_cast<float>(div_radians_per_second);
 }
 
-AsteroidGenerator::AsteroidGenerator(std::unique_ptr<b2World>& _world, int screen_width, int screen_height)
+float AsteroidGenerator::getDensity()
 {
-	this->screen_width = screen_width;
-	this->screen_height = screen_height;
-	_builder = new AsteroidBuilder(100, _world);
+	return (rand() % rnd_density + min_density) / static_cast<float>(div_density);
 }
 
-Asteroid * AsteroidGenerator::makeAsteroid()
+float AsteroidGenerator::getFriction()
 {
-	sf::Vector2f screen_position = getRandomScreenPosition();
-	b2Vec2 world_position = Coords::translate(screen_position);
-	float angular_velocity = getRandomAngularVelocity();
-	b2Vec2 linear_velocity = getRandomLinearVelocity(screen_position);
-
-	Asteroid * _asteroid = _builder
-		->setWorldPosition(world_position)
-		->setScreenPosition(screen_position)
-		->setSfmlShape()
-		->setBox2DShape()
-		->setBody()
-		->setStamina()
-		->setAngularVelocity(angular_velocity)
-		->setLinearVelocity(linear_velocity)
-		->build();
-
-	return _asteroid;
+	return (rand() % rnd_friction + min_friction) / static_cast<float>(div_friction);
 }
 
-
-AsteroidGenerator::~AsteroidGenerator()
+float AsteroidGenerator::getRestitution()
 {
+	return (rand() % rnd_restitution + min_restitution) / static_cast<float>(div_restitution);
 }

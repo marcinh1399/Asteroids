@@ -2,11 +2,11 @@
 #include "KeyboardHandling.h"
 
 
-void KeyboardHandling::sendKeysToListeners()
+void KeyboardHandling::sendKeysToListeners(const float & delta)
 {
 	for (auto listener : listeners)
 	{
-		listener->setList(pressed_keys);
+		listener->setList(pressed_keys, delta);
 	}
 }
 
@@ -21,7 +21,7 @@ void KeyboardHandling::unregisterListener(IListener * listener)
 	listeners.erase(std::find(listeners.begin(), listeners.end(), listener));
 }
 
-void KeyboardHandling::update()
+void KeyboardHandling::update(const float & delta)
 {
 	pressed_keys.clear();
 
@@ -37,9 +37,7 @@ void KeyboardHandling::update()
 		key = static_cast<sf::Keyboard::Key>(static_cast<int>(key) + 1);
 	}
 
-	//printf("pressed keys: %d\n", pressed_keys.size());
-
-	sendKeysToListeners();
+	sendKeysToListeners(delta);
 }
 
 

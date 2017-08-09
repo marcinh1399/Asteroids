@@ -14,17 +14,15 @@ public:
 
 	TimeManager(const float & waiting_time, bool ready_to_use);
 
-	void update(const float & delta);
-
 	TimeManager & operator+=(const float & delta);
+
+	TimeManager & operator*=(const float & multiplier);
 
 	bool use();
 
 	bool isReady();
 
 	float getPercentageValue();
-
-	void multiplierCooldown(const float & multiplier);
 
 	~TimeManager();
 };

@@ -1,40 +1,66 @@
 #pragma once
-#include "AsteroidBuilder.h"
 #include "Asteroid.h"
 #include <memory>
 #include <cmath>
 #include "Coords.h"
+#include <utility>
+
 
 
 class AsteroidGenerator
 {
 
 private:
-	int screen_width;
-	int screen_height;
-	const int min_speed = 1000;
-	const int rnd_speed = 3000;
-	const int min_angle_per_second = 30;
-	const int rnd_angle_per_second = 150;
 
+	int world_width;
+	int world_height;
 
-	AsteroidBuilder * _builder;
+	const int min_speed{ 700 };
+	const int rnd_speed{ 1300 };
+	const int div_speed{ 100 };
 
-	sf::Vector2f getRandomScreenPosition();
+	const int max_radians_per_second{ 300 };
+	const int div_radians_per_second{ 100 };
 
-	b2Vec2 getRandomLinearVelocity(sf::Vector2f position);
+	const int min_vertices{ 4 };
+	const int rnd_vertices{ 4 };
 
-	float getRandomAngularVelocity();
-	
+	const int min_radius{ 50 };
+	const int rnd_radius{ 70 };
+
+	const sf::Color outline_color{ sf::Color::White };
+	const sf::Color fill_color{ sf::Color::Transparent };
+	const int outline_thickness{ 3 };
+
+	const int min_density{ 500 };
+	const int rnd_density{ 700 };
+	const int div_density{ 100 };
+
+	const int min_friction{ 35 };
+	const int rnd_friction{ 50 };
+	const int div_friction{ 100 };
+
+	const int min_restitution{ 35 };
+	const int rnd_restitution{ 30 };
+	const int div_restitution{ 100 };
 
 
 public:
-	AsteroidGenerator(std::unique_ptr<b2World> & _world, int screen_width, int screen_height);
 
-	Asteroid * makeAsteroid();
+	AsteroidGenerator(int width, int height);
 
-	~AsteroidGenerator();
+	sf::ConvexShape * makeShape();
+	
+	sf::Vector2f getPosition();
+	
+	b2Vec2 getLinearVelocity(sf::Vector2f position);
 
+	float getAngularVelocity();
+
+	float getDensity();
+
+	float getFriction();
+
+	float getRestitution();
 
 };
-

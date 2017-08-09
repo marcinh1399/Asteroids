@@ -3,8 +3,8 @@
 
 
 
-Asteroid::Asteroid(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, float dmg)
-	: Object(hp, ptr_body, ptr_shape, dmg)
+Asteroid::Asteroid(b2Body * body, sf::Shape * shape)
+	: Object(body, shape)
 {
 	_body->SetUserData(this);
 	updatePosition();

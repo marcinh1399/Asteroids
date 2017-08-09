@@ -14,8 +14,9 @@ IListener & IListener::operator+=(const sf::Keyboard::Key & key)
 	return *this;
 }
 
-void IListener::setList(std::list<sf::Keyboard::Key> & _keys)
+void IListener::setList(std::list<sf::Keyboard::Key> & _keys, const float & delta)
 {
+
 	pressed_keys.clear();
 
 	for (auto key : keys)
@@ -29,9 +30,10 @@ void IListener::setList(std::list<sf::Keyboard::Key> & _keys)
 		}
 	}
 
-	handling();
+	handling(delta);
 }
 
 IListener::~IListener()
-{
+{	
+	_keyboard->unregisterListener(this);
 }

@@ -7,6 +7,7 @@
 #include "KeyboardHandling.h"
 #include <memory>
 #include <algorithm>
+#include "Statistics.h"
 
 
 class WeaponManager;
@@ -17,6 +18,7 @@ class Player
 
 private:
 
+
 	TimeManager immune_time{ 5.f, false };
 	TimeManager transp_time{ 0.15f, false };
 
@@ -24,20 +26,26 @@ private:
 	const int initial_lives{ 1 };
 	int amount_of_lives;
 
-	WeaponManager * _bullet_manager;
-	WeaponManager * _rocket_manager;
-	WeaponManager * _obstacle_manager;
+	std::unique_ptr<WeaponManager> _bullet_manager;
+	std::unique_ptr<WeaponManager> _rocket_manager;
+	std::unique_ptr<WeaponManager> _obstacle_manager;
 
 	Spaceship * _ship;
+
+	Statistics ship_stats;
 
 	void weaponManagers();
 
 	// Inherited via IListener
-	virtual void handling() override;
+	virtual void handling(const float & delta) override;
+
+	void speed(const float & delta, int move);
+
+	void angularSpeed(const float & delta, int turn);
 
 
 public:
-	Player(Spaceship * ptr_ship, std::shared_ptr<KeyboardHandling> keyboard_handling);
+	Player(Spaceship * ship, std::shared_ptr<KeyboardHandling> keyboard_handling);
 
 	void act(const float & delta);
 
@@ -47,9 +55,9 @@ public:
 
 	float getAngle();
 
-	Spaceship * getShip();
-
 	sf::Shape * getShape();
+
+	bool shoot(Bullet::Type type);
 
 	~Player();
 

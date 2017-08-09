@@ -6,7 +6,7 @@
 #include "AsteroidGenerator.h"
 #include "Bullet.h"
 #include "TimeManager.h"
-#include "PlayerBuilder.h"
+#include "Factory.h"
 
 
 class WorldManager
@@ -17,12 +17,11 @@ private:
 
 	std::vector< std::unique_ptr<Object> > & objects;
 	std::vector< std::unique_ptr<Animation> > & expl_animations;
-	
 
-	std::unique_ptr<Player> player;
+	std::shared_ptr<Player> player;
 
 	std::unique_ptr<b2World> _world;
-	std::unique_ptr<AsteroidGenerator> _generator;
+	std::unique_ptr<Factory> _factory;
 	std::shared_ptr<KeyboardHandling> _keyboard;
 
 	int screen_width = 1920;

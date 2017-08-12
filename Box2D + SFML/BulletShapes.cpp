@@ -36,9 +36,9 @@ sf::Shape * BulletShapes::getShape(Bullet::Type type)
 
 	switch (type)
 	{
-	case Bullet::Type::bullet:		shape = new sf::CircleShape(*_bullet);		break;
-	case Bullet::Type::rocket:		shape = new sf::ConvexShape(*_rocket);		break;
-	case Bullet::Type::obstacle:	shape = new sf::RectangleShape(*_obstacle);	break;
+		case Bullet::Type::bullet:		shape = new sf::CircleShape(*_bullet);		break;
+		case Bullet::Type::rocket:		shape = new sf::ConvexShape(*_rocket);		break;
+		case Bullet::Type::obstacle:	shape = new sf::RectangleShape(*_obstacle);	break;
 	}
 
 	return shape;
@@ -64,9 +64,9 @@ float BulletShapes::getHP(Bullet::Type type)
 
 	switch (type)
 	{
-	case Bullet::Type::bullet:		hp = bullet_hp;		break;
-	case Bullet::Type::rocket:		hp = rocket_hp;		break;
-	case Bullet::Type::obstacle:	hp = obstacle_hp;	break;
+		case Bullet::Type::bullet:		hp = bullet_hp;		break;
+		case Bullet::Type::rocket:		hp = rocket_hp;		break;
+		case Bullet::Type::obstacle:	hp = obstacle_hp;	break;
 	}
 
 	return hp;

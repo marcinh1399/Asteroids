@@ -33,5 +33,7 @@ public:
 	static sf::Vector2f * translateShape(b2Vec2 shape[], size_t vertices);
 
 	static std::shared_ptr<b2Shape> translateShape(sf::Shape * _shape);
+
+	static sf::Vector2f centerInPoint(sf::Vector2f v, const sf::Texture * texture, sf::Vector2f scale);
 };
 

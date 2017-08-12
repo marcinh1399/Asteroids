@@ -7,6 +7,9 @@
 #include "Bullet.h"
 #include "TimeManager.h"
 #include "Factory.h"
+#include "BulletHandling.h"
+#include "ObjectManager.h"
+#include "GameObjects.h"
 
 
 class WorldManager
@@ -14,7 +17,7 @@ class WorldManager
 
 private:
 
-
+/*
 	std::vector< std::unique_ptr<Object> > & objects;
 	std::vector< std::unique_ptr<Animation> > & expl_animations;
 
@@ -24,6 +27,16 @@ private:
 	std::unique_ptr<Factory> _factory;
 	std::shared_ptr<KeyboardHandling> _keyboard;
 
+	*/
+
+	std::unique_ptr<BulletHandling> bullet_handling;
+	std::unique_ptr<ObjectManager> objects_manager;
+	
+	std::shared_ptr<GameObjects> game_objects;
+
+
+
+
 	int screen_width = 1920;
 	int screen_height = 1200;
 
@@ -31,12 +44,6 @@ private:
 	const int max_asteroids_on_map{ 20 };
 
 	TimeManager time_manager{ 1.f, true };
-
-	void newAsteroid(const float & delta);
-
-	void removeAsteroid();
-
-	void contact();
 
 	void animations(const float & delta);
 
@@ -46,12 +53,11 @@ public:
 	int world_width;
 	int world_height;
 
-	WorldManager(int screen_width, int screen_height, 
-		std::vector< std::unique_ptr<Object> > & v_objects, 
-		std::vector< std::unique_ptr<Animation> > & v_explosions,
-		std::shared_ptr<KeyboardHandling> keyboard);
+
+
+	WorldManager(std::shared_ptr<GameObjects> g_objects);
 	
-	bool outsideMap(const std::unique_ptr<Object> & o);
+
 
 	void act(const float & delta);
 

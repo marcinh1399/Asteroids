@@ -2,14 +2,19 @@
 #include "KeyboardHandling.h"
 
 
-void KeyboardHandling::sendKeysToListeners(const float & delta)
+void KeyboardHandling::sendKeysToListeners()
 {
 	for (auto listener : listeners)
 	{
-		listener->setList(pressed_keys, delta);
+		listener->setPressedKeys(pressed_keys);
 	}
 }
 
+
+KeyboardHandling::KeyboardHandling()
+{
+	turn_off_thread.store(false);
+}
 
 void KeyboardHandling::registerListener(IListener * listener)
 {
@@ -21,29 +26,36 @@ void KeyboardHandling::unregisterListener(IListener * listener)
 	listeners.erase(std::find(listeners.begin(), listeners.end(), listener));
 }
 
-void KeyboardHandling::update(const float & delta)
+void KeyboardHandling::update()
 {
-	pressed_keys.clear();
-
-	sf::Keyboard::Key key = sf::Keyboard::Key::A;
-	
-	while (key != sf::Keyboard::Key::KeyCount)
+	while (!turn_off_thread.load())
 	{
-		if (sf::Keyboard::isKeyPressed(key))
-		{
-			pressed_keys.push_back(key);
-		}
-		
-		key = static_cast<sf::Keyboard::Key>(static_cast<int>(key) + 1);
-	}
+		bool change = false;
 
-	sendKeysToListeners(delta);
+		for (int i = 0; i < pressed_keys.size(); ++i)
+		{
+			if (pressed_keys[i] != sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(i)))
+			{
+				change = true;
+				pressed_keys[i] = !pressed_keys[i];
+			}
+		}
+
+		if (change) 
+		{
+			sendKeysToListeners();
+		}
+	}
+}
+
+void KeyboardHandling::turnOffThread()
+{
+	turn_off_thread.store(true);
 }
 
 
 
 KeyboardHandling::~KeyboardHandling()
 {
-	pressed_keys.clear();
 	listeners.clear();
 }

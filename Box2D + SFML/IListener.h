@@ -4,6 +4,9 @@
 #include <memory>
 #include <list>
 #include <array>
+#include <mutex>
+#include <utility>
+#include <bitset>
 
 
 class KeyboardHandling;
@@ -15,17 +18,16 @@ class IListener
 protected:
 
 	std::shared_ptr<KeyboardHandling> _keyboard;
-	std::vector<sf::Keyboard::Key> keys;
-	std::list<sf::Keyboard::Key> pressed_keys;
+	std::vector<std::pair<sf::Keyboard::Key, bool>> keys;
+
+	std::mutex pressed_keys_lock;
 
 	virtual void handling(const float & delta) = 0;
 
 public:
 	IListener(std::shared_ptr<KeyboardHandling> keyboard);
-
-	IListener & operator+=(const sf::Keyboard::Key & key);
-
-	void setList(std::list<sf::Keyboard::Key> & _keys, const float & delta);
+	
+	void setPressedKeys(std::bitset<101> & pressed_keys);
 
 	virtual ~IListener();
 };

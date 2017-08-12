@@ -18,7 +18,7 @@ bool StateManager::push(IState * state)
 	return loaded;
 }
 
-void StateManager::removeCurrentState()
+void StateManager::pop()
 {
 	if (!states.empty())
 	{

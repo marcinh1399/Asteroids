@@ -20,9 +20,16 @@ void Player::handling(const float & delta)
 	float turn = 0.f;
 	float move = 0.f;
 
-	for (auto key : pressed_keys)
+	//////////////////////////////////////////////////////////
+	pressed_keys_lock.lock();
+	for (auto & pair : keys)
 	{
-		switch (key)
+		if (!pair.second)
+		{
+			continue;
+		}
+
+		switch (pair.first)
 		{
 			case sf::Keyboard::Key::A: turn -= 1; break;
 			case sf::Keyboard::Key::D: turn += 1; break;
@@ -30,6 +37,8 @@ void Player::handling(const float & delta)
 			case sf::Keyboard::Key::S: move -= 1; break;
 		}
 	}
+	pressed_keys_lock.unlock();
+	//////////////////////////////////////////////////////////
 
 	speed(delta, move);
 	angularSpeed(delta, turn);
@@ -81,18 +90,16 @@ Player::Player(Spaceship * ship, std::shared_ptr<KeyboardHandling> keyboard_hand
 {
 	ship_stats = ship->getCurrentStats();
 	weaponManagers();
-	
-	keys.push_back(sf::Keyboard::Key::W);
-	keys.push_back(sf::Keyboard::Key::A);
-	keys.push_back(sf::Keyboard::Key::S);
-	keys.push_back(sf::Keyboard::Key::D);
 
-
+	keys.push_back(std::make_pair<sf::Keyboard::Key, bool>(sf::Keyboard::Key::W, false));
+	keys.push_back(std::make_pair<sf::Keyboard::Key, bool>(sf::Keyboard::Key::A, false));
+	keys.push_back(std::make_pair<sf::Keyboard::Key, bool>(sf::Keyboard::Key::S, false));
+	keys.push_back(std::make_pair<sf::Keyboard::Key, bool>(sf::Keyboard::Key::D, false));
 }
 
 void Player::act(const float & delta)
 {
-	_ship->act(delta);
+	handling(delta);
 }
 
 sf::Vector2f Player::getPositionScreen()

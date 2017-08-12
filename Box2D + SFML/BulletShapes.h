@@ -17,8 +17,8 @@ private:
 
 
 	////			HP			////
-	const float bullet_hp{ 50.f };
-	const float rocket_hp{ 200.f };
+	const float bullet_hp{ 150.f };
+	const float rocket_hp{ 350.f };
 	const float obstacle_hp{ 1000.f };
 	////////////////////////////////
 

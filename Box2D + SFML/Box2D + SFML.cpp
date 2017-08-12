@@ -14,7 +14,6 @@
 #include <assert.h>
 #include "Object.h"
 #include "WorldManager.h"
-#include "ButtonGenerator.h"
 #include "IState.h"
 #include "MenuState.h"
 #include "StateManager.h"
@@ -24,6 +23,10 @@
 #include <boost\archive\text_oarchive.hpp>
 #include "KeyboardHandling.h"
 #include "SpaceshipTypes.h"
+
+
+
+#include <thread>
 
 
 #include "Coords.h"
@@ -41,9 +44,19 @@ float Coords::to_screen = 1.f / 20.f;
 float Coords::m_pi = 3.14f;
 SpaceshipTypes * SpaceshipTypes::instance = nullptr;
 
+void foo(int n)
+{
+	while (n--)
+	{
+		printf("thread1; %d\n", n);
+	}
+}
+
 int main(int argc, char** argv)
 {
 	Coords::init(20);
+
+	
 	
 
 	RECT desktop;
@@ -56,6 +69,9 @@ int main(int argc, char** argv)
 	printf("WIDTH: %d\nHEIGTH: %d\n\n\n\n", width, height);
 
 
+	sf::Vector2f world_size(width, height);
+
+
 	srand(time(NULL));
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
@@ -64,37 +80,36 @@ int main(int argc, char** argv)
 	
 	std::shared_ptr<KeyboardHandling> keyboard = std::make_shared<KeyboardHandling>();
 
-	IState * _menu = new MenuState(_state_manager, _window, width, height, keyboard);
+	IState * _menu = new MenuState(_state_manager, _window, world_size, keyboard);
 
 	_state_manager->push(_menu);
 
 	IState * _state = _state_manager->getCurrentState();
-	IState * _g_state = new GameState(_state_manager, _window, width, height, keyboard);
+	IState * _g_state = new GameState(_state_manager, _window, world_size, keyboard);
 
-	for (int i = 0;; ++i)
+	
+	sf::Thread t_keyboard(&KeyboardHandling::update, keyboard.get());
+	t_keyboard.launch();
+
+	sf::Clock clock;
+	clock.restart();
+
+	for (int i = 0; (_state = _state_manager->getCurrentState()) != nullptr; ++i)
 	{
-		if (i == 2)
-		{
-			_state_manager->push(_g_state);
-		}
-
-		if (i == 120000)
-		{
-			_state_manager->removeCurrentState();
-		}
-		
-		sf::Clock clock;
-		clock.restart();
 		sf::Time time = sf::seconds(1.f / 60.f);
 		while (clock.getElapsedTime() < time);
-		keyboard->update(1.f / 60.f);
-		_state = _state_manager->getCurrentState();
+
 		_state->mouseHandle(sf::Mouse::getPosition(), sf::Mouse::isButtonPressed(sf::Mouse::Left));
-		_state->update(clock.getElapsedTime().asSeconds());
-		_state->show();
+		if (_state = _state_manager->getCurrentState()) {
+			_state->update(clock.restart().asSeconds());
+			_state->show();
+		}
 
 	
 	}
+	
+	keyboard->turnOffThread();
+	t_keyboard.wait();
 
 
 	return 0;

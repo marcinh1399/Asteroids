@@ -20,8 +20,6 @@ public:
 	};
 
 
-	Bullet(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, float dmg);
-
 	//New Constructor
 	Bullet(b2Body * ptr_body, sf::Shape * ptr_shape, float hp);
 

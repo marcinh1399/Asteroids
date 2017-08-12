@@ -87,10 +87,16 @@ std::shared_ptr<b2Shape> Coords::translateShape(sf::Shape * sf_shape)
 	
 		ptr = std::make_shared<b2PolygonShape>();
 		std::static_pointer_cast<b2PolygonShape>(ptr)->Set(vertices, sf_shape->getPointCount());
-		printf("Points: %d\n", sf_shape->getPointCount());
 
 		delete[] vertices;
 	}
 
 	return ptr;
+}
+
+sf::Vector2f Coords::centerInPoint(sf::Vector2f v, const sf::Texture * texture, sf::Vector2f scale)
+{
+	v.x -= scale.x * texture->getSize().x / 2;
+	v.y -= scale.y * texture->getSize().y / 2;
+	return v;
 }

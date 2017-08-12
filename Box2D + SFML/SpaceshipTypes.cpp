@@ -14,10 +14,10 @@ std::pair<sf::ConvexShape*, Statistics> SpaceshipTypes::setType0()
 	size_t points = 4;
 
 	sf::Vector2f * vertices = new sf::Vector2f[points]{
-		sf::Vector2f{ 0.f, -20.f },
-		sf::Vector2f{ -15.f, 20.f },
-		sf::Vector2f{ 0.f, 1.f },
-		sf::Vector2f{ 15.f, 20.f },
+		sf::Vector2f(0.f, -20.f),
+		sf::Vector2f(-15.f, 20.f),
+		sf::Vector2f(0.f, 1.f),
+		sf::Vector2f(15.f, 20.f)
 	};
 
 	sf::ConvexShape * _shape = new sf::ConvexShape(points);

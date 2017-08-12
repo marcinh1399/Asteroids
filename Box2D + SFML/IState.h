@@ -16,13 +16,14 @@ protected:
 	std::unique_ptr<StateManager> & _manager;
 	std::unique_ptr<sf::RenderWindow> & _window;
 	std::shared_ptr<KeyboardHandling> _keyboard;
-	int screen_width;
-	int screen_height;
+
+	sf::Vector2f world_size;
 
 public:
-	IState(std::unique_ptr<StateManager> & u_manager, 
-		std::unique_ptr<sf::RenderWindow> & u_window, int width, int height
-		, std::shared_ptr<KeyboardHandling> keyboard);
+
+	IState(std::unique_ptr<StateManager> & u_manager,
+		std::unique_ptr<sf::RenderWindow> & u_window, sf::Vector2f world_bounds,
+		std::shared_ptr<KeyboardHandling> keyboard);
 
 	virtual void show() = 0;
 

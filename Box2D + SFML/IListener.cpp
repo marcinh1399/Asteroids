@@ -8,29 +8,17 @@ IListener::IListener(std::shared_ptr<KeyboardHandling> keyboard)
 	_keyboard->registerListener(this);
 }
 
-IListener & IListener::operator+=(const sf::Keyboard::Key & key)
+
+void IListener::setPressedKeys(std::bitset<101>& pressed_keys)
 {
-	keys.push_back(key);
-	return *this;
-}
+	pressed_keys_lock.lock();
 
-void IListener::setList(std::list<sf::Keyboard::Key> & _keys, const float & delta)
-{
-
-	pressed_keys.clear();
-
-	for (auto key : keys)
+	for (auto & pair : keys)
 	{
-		for (auto _key : _keys)
-		{
-			if (_key == key)
-			{
-				pressed_keys.push_back(_key);
-			}
-		}
+		pair.second = pressed_keys[static_cast<int>(pair.first)];
 	}
 
-	handling(delta);
+	pressed_keys_lock.unlock();
 }
 
 IListener::~IListener()

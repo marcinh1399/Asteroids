@@ -1,35 +1,29 @@
 #pragma once
 #include "IState.h"
 #include "PressButton.h"
-#include "ButtonGenerator.h"
 #include <memory>
 #include "SFML\Graphics.hpp"
 #include <vector>
 #include <string>
 #include <fstream>
 #include "MouseHandling.h"
+#include "FactoryButton.h"
+#include "GameState.h"
 
 class MenuState :
 	public IState
 {
 private :
 
-	std::vector<PressButton *> buttons;
-	ButtonGenerator * _generator;
-	
-
-	const std::string path_to_buttons = "menu_buttons.txt";
-	std::ifstream file_with_names;
-	bool loaded;
+	FactoryButton button_factory;
+	std::vector<std::shared_ptr<PressButton>> buttons;
 
 	MouseHandling mouse;
-
-	bool loadButtonsFromFile();
 
 
 public:
 	MenuState(std::unique_ptr<StateManager> & u_manager, 
-		std::unique_ptr<sf::RenderWindow> & u_window, int width, int height,
+		std::unique_ptr<sf::RenderWindow> & u_window, sf::Vector2f world_bounds,
 		std::shared_ptr<KeyboardHandling> keyboard);
 
 	virtual void show() override;

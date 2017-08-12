@@ -16,7 +16,7 @@ public:
 
 	bool push(IState * state);
 
-	void removeCurrentState();
+	void pop();
 
 	IState * getCurrentState();
 

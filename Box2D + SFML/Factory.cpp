@@ -19,7 +19,7 @@ b2Body * Factory::makeBody(const BodyDescription & desc, bool group)
 
 	if (group)
 	{
-		fixture_def.filter.groupIndex = 0;
+		fixture_def.filter.groupIndex = -1;
 	}
 
 	_body->CreateFixture(&fixture_def);
@@ -57,6 +57,8 @@ std::unique_ptr<Asteroid> Factory::makeAsteroid()
 
 	sf_shape->setPosition(sf_pos);
 
+	printf("Mass = %f.6\n", body->GetMass());
+
 	return std::make_unique<Asteroid>(body, sf_shape);
 }
 
@@ -77,7 +79,7 @@ std::unique_ptr<Spaceship> Factory::makeSpaceship(sf::Vector2f sf_pos, Spaceship
 
 	BodyDescription description;
 	description.position = Coords::translate(sf_pos);
-	description.type = b2BodyType::b2_dynamicBody;
+	description.type = b2BodyType::b2_kinematicBody;
 	description.shape = ptr_shape.get();
 	description.density = 15.f;
 	description.friction = 0.6f;
@@ -94,11 +96,6 @@ std::unique_ptr<Spaceship> Factory::makeSpaceship(sf::Vector2f sf_pos, Spaceship
 
 std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type)
 {
-	if (!_player->shoot(type))
-	{
-		return std::unique_ptr<Bullet>();
-	}
-
 	auto sf_pos = _player->getPositionScreen();
 	auto sf_shape = bullet_shapes.getShape(type);
 	float alpha = _player->getAngle();
@@ -113,12 +110,12 @@ std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type)
 	description.density = 30.f;
 	description.friction = 0.7f;
 	description.restitution = 0.3f;
-	description.linear_velocity = b2Vec2(cos(alpha) * speed, sin(alpha) * speed);
+	description.linear_velocity = b2Vec2(sin(alpha) * speed, -cos(alpha) * speed);
 	description.angular_velocity = 0.f;
 
 	auto body = makeBody(description, true);
 
-	body->SetFixedRotation(alpha);
+	body->SetTransform(body->GetPosition(), alpha);
 	body->SetBullet(true);
 
 	sf_shape->setPosition(sf_pos);

@@ -7,18 +7,16 @@
 #include "Statistics.h"
 #include "Object.h"
 #include "TimeManager.h"
+#include "IListener.h"
+#include <memory>
 
 class Spaceship
-	: public Object
+	: public Object, IListener
 {
 
 private:
 
-	Statistics basic_stats;
 	Statistics current_stats;
-
-
-	int current_stats_version;
 
 
 	TimeManager immune_time{ 5.f, false };
@@ -28,31 +26,42 @@ private:
 	sf::Color shape_color{ sf::Color::White };
 
 
-	
-	//std::array<Equipment, 6> equipment;
-
-
-	
-
 	void animationOfReborn(const float & delta);
 
-	void update();
-	
+	// Inherited via IListener
+	virtual void handling(const float & delta) override;
+
+	void linearVelocity(const float & delta, int move);
+
+	void angularVelocity(const float & delta, int turn);
+
+
+
+
+
+	// init functions
+
+	void immuneAnimation();
+
+	void setKeys();
+
+	//
+
 
 public:
-	Spaceship(float hp, b2Body * ptr_body, sf::Shape * ptr_shape, 
-		float dmg, Statistics statistics);
 
-	Spaceship(b2Body * ptr_body, sf::Shape * ptr_shape, Statistics statistics);
+
+	Spaceship(b2Body * ptr_body, sf::Shape * ptr_shape, 
+		Statistics statistics, std::shared_ptr<KeyboardHandling> keyboard_handling);
 
 	Statistics getCurrentStats();
-
-	void improveEq(Equipment::Type type);
 
 	~Spaceship();
 
 	// Inherited via Object
 
 	virtual void act(const float & delta) override;
+
+
 };
 

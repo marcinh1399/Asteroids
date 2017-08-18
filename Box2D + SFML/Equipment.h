@@ -8,6 +8,7 @@ public:
 
 	enum class Type
 	{
+		UNINITIALIZED = -1,
 		hp = 0,
 		engine,
 		agility,
@@ -28,9 +29,11 @@ private:
 
 public:
 
-	Equipment(Type type);
+	void init(Type type);
 
-	Statistics stats{ 0.f, 0.f, 0.f, 0.f, 0.f, 0.f };
+	Equipment();
+
+	Statistics stats;
 
 	int getLevel();
 

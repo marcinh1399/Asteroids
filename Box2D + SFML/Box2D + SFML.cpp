@@ -23,10 +23,17 @@
 #include <boost\archive\text_oarchive.hpp>
 #include "KeyboardHandling.h"
 #include "SpaceshipTypes.h"
+#include "OpeningState.h"
 
 
 
 #include <thread>
+
+
+#include <boost\thread.hpp>
+
+
+#include <boost\ptr_container\ptr_vector.hpp>
 
 
 #include "Coords.h"
@@ -57,6 +64,9 @@ int main(int argc, char** argv)
 	Coords::init(20);
 
 	
+
+	
+	
 	
 
 	RECT desktop;
@@ -64,6 +74,8 @@ int main(int argc, char** argv)
 	GetWindowRect(Desktop, &desktop);
 	int width = desktop.right;
 	int height = desktop.bottom;
+
+	
 
 
 	printf("WIDTH: %d\nHEIGTH: %d\n\n\n\n", width, height);
@@ -79,13 +91,14 @@ int main(int argc, char** argv)
 
 	
 	std::shared_ptr<KeyboardHandling> keyboard = std::make_shared<KeyboardHandling>();
+	
 
-	IState * _menu = new MenuState(_state_manager, _window, world_size, keyboard);
 
-	_state_manager->push(_menu);
+	IState * _opening = new OpeningState(_state_manager, _window, world_size, keyboard);
+
+	_state_manager->push(_opening);
 
 	IState * _state = _state_manager->getCurrentState();
-	IState * _g_state = new GameState(_state_manager, _window, world_size, keyboard);
 
 	
 	sf::Thread t_keyboard(&KeyboardHandling::update, keyboard.get());
@@ -102,7 +115,8 @@ int main(int argc, char** argv)
 		_state->mouseHandle(sf::Mouse::getPosition(), sf::Mouse::isButtonPressed(sf::Mouse::Left));
 		if (_state = _state_manager->getCurrentState()) {
 			_state->update(clock.restart().asSeconds());
-			_state->show();
+			if (_state = _state_manager->getCurrentState())
+				_state->show();
 		}
 
 	
@@ -110,7 +124,7 @@ int main(int argc, char** argv)
 	
 	keyboard->turnOffThread();
 	t_keyboard.wait();
-
+	
 
 	return 0;
 }

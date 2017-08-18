@@ -22,6 +22,7 @@ private:
 	std::shared_ptr<Player> _player;
 	SpaceshipTypes * spaceship_types;
 	BulletShapes bullet_shapes;
+	
 
 
 	struct BodyDescription
@@ -51,7 +52,8 @@ public:
 		std::shared_ptr<KeyboardHandling> keyboard);
 
 
-	std::unique_ptr<Spaceship> makeSpaceship(sf::Vector2f sf_pos, SpaceshipTypes::ShipType type);
+	std::unique_ptr<Spaceship> makeSpaceship(sf::Vector2f sf_pos, 
+		SpaceshipTypes::ShipType type, std::shared_ptr<KeyboardHandling> keyboard);
 
 
 	std::unique_ptr<Bullet> makeBullet(Bullet::Type type);

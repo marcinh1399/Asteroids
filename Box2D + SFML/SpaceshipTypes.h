@@ -3,6 +3,7 @@
 #include <utility>
 #include <SFML\Graphics.hpp>
 #include <array>
+#include "Ship.h"
 
 
 
@@ -16,26 +17,27 @@ private:
 
 	SpaceshipTypes();
 
-	SpaceshipTypes(const SpaceshipTypes & type);
+	SpaceshipTypes(const SpaceshipTypes & type) = delete;
 
-	std::array<std::pair<sf::ConvexShape *, Statistics>, 1> types;
+	SpaceshipTypes& operator=(const SpaceshipTypes & type) = delete;
 
 	void loadTypes();
 
-	std::pair<sf::ConvexShape *, Statistics> setType0();
+	Ship * setType0();
+
+
+	std::array<Ship *, 1> ship_types;
+	
 
 	
 public:
 
 	enum class ShipType {
 		type1 = 0,
-		type2
-		//.
-		//.
-		//.
+		none
 	};
 
-	std::pair<sf::ConvexShape *, Statistics> getType(ShipType type);
+	Ship * getType(ShipType type);
 
 	static SpaceshipTypes * getInstance();
 

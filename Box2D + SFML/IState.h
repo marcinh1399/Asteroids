@@ -33,6 +33,6 @@ public:
 
 	virtual bool isLoaded() = 0;
 
-	~IState();
+	virtual ~IState();
 };
 

@@ -65,16 +65,17 @@ std::unique_ptr<Asteroid> Factory::makeAsteroid()
 std::shared_ptr<Player> Factory::makePlayer(std::unique_ptr<Spaceship> & ship, 
 	std::shared_ptr<KeyboardHandling> keyboard)
 {
-	_player = std::make_shared<Player>(ship.get(), keyboard);
+	_player = std::make_shared<Player>(ship.get());
 
 	return _player;
 }
 
-std::unique_ptr<Spaceship> Factory::makeSpaceship(sf::Vector2f sf_pos, SpaceshipTypes::ShipType type)
+std::unique_ptr<Spaceship> Factory::makeSpaceship(sf::Vector2f sf_pos, 
+	SpaceshipTypes::ShipType type, std::shared_ptr<KeyboardHandling> keyboard)
 {
-	auto pair = spaceship_types->getType(type);
-	auto sf_shape = pair.first;
-	auto stats = pair.second;
+	auto ship = spaceship_types->getType(type);
+	auto sf_shape = new sf::ConvexShape(ship->getShape());
+	auto stats = ship->getCurrentStats();
 	auto ptr_shape = Coords::translateShape(sf_shape);
 
 	BodyDescription description;
@@ -91,7 +92,7 @@ std::unique_ptr<Spaceship> Factory::makeSpaceship(sf::Vector2f sf_pos, Spaceship
 
 	sf_shape->setPosition(sf_pos);
 
-	return std::make_unique<Spaceship>(body, sf_shape, stats);
+	return std::make_unique<Spaceship>(body, sf_shape, stats, keyboard);
 }
 
 std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type)

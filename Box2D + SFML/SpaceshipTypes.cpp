@@ -4,10 +4,10 @@
 
 void SpaceshipTypes::loadTypes()
 {
-	types[0] = setType0();
+	ship_types[0] = setType0();
 }
 
-std::pair<sf::ConvexShape*, Statistics> SpaceshipTypes::setType0()
+Ship * SpaceshipTypes::setType0()
 {
 	// SHAPE //
 
@@ -20,18 +20,18 @@ std::pair<sf::ConvexShape*, Statistics> SpaceshipTypes::setType0()
 		sf::Vector2f(15.f, 20.f)
 	};
 
-	sf::ConvexShape * _shape = new sf::ConvexShape(points);
+	sf::ConvexShape shape(points);
 
 	for (int i = 0; i < points; ++i)
 	{
-		_shape->setPoint(i, vertices[i]);
+		shape.setPoint(i, vertices[i]);
 	}
 
 	delete[] vertices;
 
-	_shape->setOutlineThickness(2);
-	_shape->setOutlineColor(sf::Color::White);
-	_shape->setFillColor(sf::Color::Transparent);
+	shape.setOutlineThickness(2);
+	shape.setOutlineColor(sf::Color::White);
+	shape.setFillColor(sf::Color::Transparent);
 
 	/// END SHAPE ///
 
@@ -53,7 +53,7 @@ std::pair<sf::ConvexShape*, Statistics> SpaceshipTypes::setType0()
 		bullet_cooldown
 	};
 
-	return std::pair<sf::ConvexShape*, Statistics>(_shape, stats);
+	return new Ship(stats, shape);
 }
 
 
@@ -62,9 +62,9 @@ SpaceshipTypes::SpaceshipTypes()
 	loadTypes();
 }
 
-std::pair<sf::ConvexShape*, Statistics> SpaceshipTypes::getType(ShipType type)
+Ship * SpaceshipTypes::getType(ShipType type)
 {
-	return types[static_cast<int>(type)];
+	return ship_types[static_cast<int>(type)];
 }
 
 SpaceshipTypes * SpaceshipTypes::getInstance()
@@ -80,8 +80,8 @@ SpaceshipTypes * SpaceshipTypes::getInstance()
 
 SpaceshipTypes::~SpaceshipTypes()
 {
-	for (auto pair : types)
+	for (auto ship : ship_types)
 	{
-		//delete pair.first;
+		delete ship;
 	}
 }

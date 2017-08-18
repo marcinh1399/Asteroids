@@ -2,7 +2,7 @@
 #include "Equipment.h"
 
 
-Equipment::Equipment(Type type)
+void Equipment::init(Type type)
 {
 	this->type = type;
 	this->current_level = 0;
@@ -16,6 +16,11 @@ Equipment::Equipment(Type type)
 		case Equipment::Type::bullet:	stats.bullet_dmg = 1.f;		break;
 		case Equipment::Type::gun:		stats.bullet_cdwn = 1.f;	break;
 	}
+}
+
+Equipment::Equipment()
+{
+	this->type = Type::UNINITIALIZED;
 }
 
 int Equipment::getLevel()

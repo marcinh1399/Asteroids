@@ -34,8 +34,6 @@ void WorldManager::act(const float & delta)
 		o->act(delta);
 	}
 
-	game_objects->player->act(delta);
-
 	bullet_handling->update(delta);
 
 	animations(delta);

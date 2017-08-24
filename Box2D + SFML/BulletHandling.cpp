@@ -8,8 +8,8 @@ BulletHandling::BulletHandling(std::shared_ptr<GameObjects> g_objects)
 	: IListener(g_objects->keyboard),
 	objects(g_objects->objects),
 	_factory(g_objects->factory),
-	bullet_manager(500, 200, 1.f / 60.f),
-	rocket_manager(100, 20, 0.5f),
+	bullet_manager(500, 200, 1.f / 10.f),
+	rocket_manager(100, 20, 1.f),
 	obstacle_manager(5, 1, 10.f)
 {
 	current_manager = &bullet_manager;

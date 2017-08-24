@@ -9,6 +9,12 @@
 #include "Spaceship.h"
 #include "Bullet.h"
 #include "BulletShapes.h"
+#include "Enemy.h"
+
+
+class Enemy;
+class GameObjects;
+class AI;
 
 
 class Factory
@@ -57,6 +63,12 @@ public:
 
 
 	std::unique_ptr<Bullet> makeBullet(Bullet::Type type);
+
+
+	std::unique_ptr<Enemy> makeEnemy(std::shared_ptr<GameObjects> g_objects);
+
+
+	std::unique_ptr<Bullet> makeBullet(Bullet::Type type, Enemy * object);
 
 
 	~Factory();

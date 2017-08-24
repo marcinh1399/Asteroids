@@ -10,6 +10,7 @@
 #include "BulletHandling.h"
 #include "ObjectManager.h"
 #include "GameObjects.h"
+#include "World.h"
 
 
 class WorldManager
@@ -28,6 +29,11 @@ private:
 	std::shared_ptr<KeyboardHandling> _keyboard;
 
 	*/
+
+
+	const unsigned int radius_of_world = 5000;
+
+
 
 	std::unique_ptr<BulletHandling> bullet_handling;
 	std::unique_ptr<ObjectManager> objects_manager;

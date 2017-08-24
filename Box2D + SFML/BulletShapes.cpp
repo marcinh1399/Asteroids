@@ -5,7 +5,10 @@
 void BulletShapes::loadShapes()
 {
 	_bullet = new sf::CircleShape(radius);
-	_obstacle = new sf::RectangleShape(sf::Vector2f{ 20, 20 });
+	_bullet->setOrigin(radius, radius);
+	_obstacle = new sf::CircleShape(radius * radius);
+	_obstacle->setOrigin(radius * radius, radius * radius);
+
 	
 
 	sf::Vector2f rocket[5] = {
@@ -38,7 +41,7 @@ sf::Shape * BulletShapes::getShape(Bullet::Type type)
 	{
 		case Bullet::Type::bullet:		shape = new sf::CircleShape(*_bullet);		break;
 		case Bullet::Type::rocket:		shape = new sf::ConvexShape(*_rocket);		break;
-		case Bullet::Type::obstacle:	shape = new sf::RectangleShape(*_obstacle);	break;
+		case Bullet::Type::obstacle:	shape = new sf::CircleShape(*_obstacle);	break;
 	}
 
 	return shape;

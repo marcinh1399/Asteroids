@@ -38,6 +38,7 @@ public:
 
 	Player(Spaceship * ship);
 
+	b2Body * getBody();
 
 	sf::Vector2f getPositionScreen();
 

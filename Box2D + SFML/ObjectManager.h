@@ -8,6 +8,8 @@
 #include "Factory.h"
 #include "SFML\Graphics.hpp"
 #include "GameObjects.h"
+#include "World.h"
+#include "Enemy.h"
 
 
 class ObjectManager
@@ -22,13 +24,18 @@ private:
 	std::unique_ptr<b2World> & world;
 	std::unique_ptr<Factory> & factory;
 
+	std::shared_ptr<GameObjects> game_objects;
+
 
 	int asteroids_on_map{ 0 };
-	const int max_asteroids_on_map{ 20 };
+	const int max_asteroids_on_map{ 100 };
+	const int asteroids_min{ 50 };
 	TimeManager asteroid_timer{ 1.f, true };
 
 	
 	void addAsteroid(const float & delta);
+
+	void addEnemy();
 
 	void removeObjects();
 

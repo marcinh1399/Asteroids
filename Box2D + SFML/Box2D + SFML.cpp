@@ -24,7 +24,8 @@
 #include "KeyboardHandling.h"
 #include "SpaceshipTypes.h"
 #include "OpeningState.h"
-
+#include <ctime>
+#include <cstdio>
 
 
 #include <thread>
@@ -61,7 +62,11 @@ void foo(int n)
 
 int main(int argc, char** argv)
 {
+
+	srand(time(NULL));
 	Coords::init(20);
+
+
 
 	
 
@@ -88,6 +93,9 @@ int main(int argc, char** argv)
 
 	std::unique_ptr<sf::RenderWindow> _window(new sf::RenderWindow(sf::VideoMode(1920, 1200, 32), "Asteroids!", sf::Style::Fullscreen));
 	std::unique_ptr<StateManager> _state_manager(new StateManager());
+
+	sf::View viewport(sf::Vector2f(960.f, 600.f), sf::Vector2f(1920.f, 1200.f));
+	_window->setView(viewport);
 
 	
 	std::shared_ptr<KeyboardHandling> keyboard = std::make_shared<KeyboardHandling>();

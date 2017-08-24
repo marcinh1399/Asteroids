@@ -8,15 +8,17 @@ ObjectManager::ObjectManager(std::shared_ptr<GameObjects> g_objects)
 	objects(g_objects->objects),
 	expl_animations(g_objects->expl_animations),
 	world(g_objects->world),
-	factory(g_objects->factory)
+	factory(g_objects->factory),
+	game_objects(g_objects)
 {
+	addEnemy();
 }
 
 void ObjectManager::update(const float & delta)
 {
 
 		collisions();
-		removeObjects();
+		//removeObjects();
 		addAsteroid(delta);
 }
 
@@ -27,9 +29,7 @@ bool ObjectManager::isOutOfMap(std::unique_ptr<Object>& o)
 	if (o->getState() == ObjectState::created)
 		return false;
 
-	sf::Vector2f v = o->getPosition();
-	return v.x < -250 || v.x > world_size.x + 250
-		|| v.y < -250 || v.y > world_size.y + 250;
+	return World::outOfMap(o->getPosition());
 }
 
 void ObjectManager::addAsteroid(const float & delta)
@@ -39,7 +39,7 @@ void ObjectManager::addAsteroid(const float & delta)
 	if (asteroids_on_map >= max_asteroids_on_map)
 		return;
 
-	if (asteroid_timer.use() || asteroids_on_map < 10)
+	if (asteroid_timer.use() || asteroids_on_map < asteroids_min)
 	{
 		if (rand() % 5 > 3)
 		{
@@ -47,6 +47,13 @@ void ObjectManager::addAsteroid(const float & delta)
 			++asteroids_on_map;
 		}
 	}
+}
+
+void ObjectManager::addEnemy()
+{
+	auto enemy = factory->makeEnemy(game_objects);
+
+	objects.push_back(std::move(enemy));
 }
 
 void ObjectManager::removeObjects()

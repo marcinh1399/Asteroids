@@ -4,6 +4,7 @@
 #include <SFML\Graphics.hpp>
 #include <array>
 #include "Ship.h"
+#include "Coords.h"
 
 
 

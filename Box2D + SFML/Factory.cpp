@@ -42,6 +42,7 @@ std::unique_ptr<Asteroid> Factory::makeAsteroid()
 	auto sf_shape = asteroid_generator->makeShape();
 	auto sf_pos = asteroid_generator->getPosition();
 	auto ptr_shape = Coords::translateShape(sf_shape);
+	
 
 	BodyDescription description;
 	description.position = Coords::translate(sf_pos);
@@ -104,8 +105,13 @@ std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type)
 	float hp = bullet_shapes.getHP(type);
 	auto ptr_shape = Coords::translateShape(sf_shape);
 
+	
+	auto transform = _player->getShape()->getTransform();
+	auto point_pos = transform.transformPoint(_player->getShape()->getPoint(0));
+
 	BodyDescription description;
-	description.position = Coords::translate(sf_pos);
+	description.position = Coords::translate(point_pos);
+	//(sf_pos);
 	description.type = b2BodyType::b2_dynamicBody;
 	description.shape = ptr_shape.get();
 	description.density = 30.f;
@@ -123,6 +129,83 @@ std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type)
 
 	return std::make_unique<Bullet>(body, sf_shape, hp);
 }
+
+std::unique_ptr<Enemy> Factory::makeEnemy(std::shared_ptr<GameObjects> g_objects)
+{
+	auto ship = spaceship_types->getType(SpaceshipTypes::ShipType::type1);
+	auto sf_shape = new sf::ConvexShape(ship->getShape());
+	auto stats = ship->getCurrentStats();
+	auto ptr_shape = Coords::translateShape(sf_shape);
+	auto sf_pos = asteroid_generator->getPosition();
+
+	sf_shape->setOutlineColor(sf::Color::Red);
+
+	BodyDescription description;
+	description.position = Coords::translate(sf_pos);
+	description.type = b2BodyType::b2_kinematicBody;
+	description.shape = ptr_shape.get();
+	description.density = 15.f;
+	description.friction = 0.6f;
+	description.restitution = 0.5f;
+	description.linear_velocity = b2Vec2(0.f, 0.f);
+	description.angular_velocity = 0.f;
+
+	auto body = makeBody(description, true);
+
+	sf_shape->setPosition(sf_pos);
+
+
+	return std::make_unique<Enemy>(body, sf_shape, stats, g_objects);
+}
+
+
+
+
+
+
+
+
+
+
+std::unique_ptr<Bullet> Factory::makeBullet(Bullet::Type type, Enemy * object)
+{
+	auto sf_pos = Coords::translate(object->getBody()->GetPosition());
+	auto sf_shape = bullet_shapes.getShape(type);
+	float alpha = object->getBody()->GetAngle();
+	float speed = bullet_shapes.getSpeed(type);
+	float hp = bullet_shapes.getHP(type);
+	auto ptr_shape = Coords::translateShape(sf_shape);
+
+
+	auto transform = object->getShape()->getTransform();
+	auto point_pos = transform.transformPoint(object->getShape()->getPoint(0));
+
+	BodyDescription description;
+	description.position = Coords::translate(point_pos);
+	//(sf_pos);
+	description.type = b2BodyType::b2_dynamicBody;
+	description.shape = ptr_shape.get();
+	description.density = 30.f;
+	description.friction = 0.7f;
+	description.restitution = 0.3f;
+	description.linear_velocity = b2Vec2(sin(alpha) * speed, -cos(alpha) * speed);
+	description.angular_velocity = 0.f;
+
+	auto body = makeBody(description, true);
+
+	body->SetTransform(body->GetPosition(), alpha);
+	body->SetBullet(true);
+
+	sf_shape->setPosition(sf_pos);
+
+	return std::make_unique<Bullet>(body, sf_shape, hp);
+}
+
+
+
+
+
+
 
 Factory::~Factory()
 {

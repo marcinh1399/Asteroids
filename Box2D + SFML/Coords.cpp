@@ -86,7 +86,10 @@ std::shared_ptr<b2Shape> Coords::translateShape(sf::Shape * sf_shape)
 		
 	
 		ptr = std::make_shared<b2PolygonShape>();
+		
 		std::static_pointer_cast<b2PolygonShape>(ptr)->Set(vertices, sf_shape->getPointCount());
+		// sometimes throws exception ^
+
 
 		delete[] vertices;
 	}

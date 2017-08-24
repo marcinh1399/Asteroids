@@ -25,6 +25,8 @@ void WorldManager::animations(const float & delta)
 
 void WorldManager::act(const float & delta)
 {
+	bullet_handling->update(delta);
+
 	objects_manager->update(delta);
 
 	game_objects->world->Step(delta, 8, 3);
@@ -34,7 +36,11 @@ void WorldManager::act(const float & delta)
 		o->act(delta);
 	}
 
-	bullet_handling->update(delta);
+	if (game_objects->enemy_bullet)
+	{
+		game_objects->enemy_bullet->act(delta);
+		game_objects->objects.push_back(std::move(game_objects->enemy_bullet));
+	}
 
 	animations(delta);
 }

@@ -15,13 +15,15 @@ sf::ConvexShape * AsteroidGenerator::makeShape()
 	
 	float f_angle = 360 / number_of_vertices;
 	int angle = static_cast<int>(f_angle);
-
+	//////////////////////
+	int length = min_radius + rand() % rnd_radius;
+	/////////////////////////
 	sf::ConvexShape * shape = new sf::ConvexShape(number_of_vertices);
 
 	for (int i = 0; i < number_of_vertices; ++i)
 	{
 		int alpha = Coords::radians(f_angle * i + rand() % angle);
-		int length = min_radius + rand() % rnd_radius;
+//		int length = min_radius + rand() % rnd_radius;
 		shape->setPoint(i, sf::Vector2f( sin(alpha) * length, cos(alpha) * length ));
 	}
 
@@ -34,45 +36,17 @@ sf::ConvexShape * AsteroidGenerator::makeShape()
 
 sf::Vector2f AsteroidGenerator::getPosition()
 {
-	int side_of_screen = rand() % 4;
-	int x, y;
-
-	switch (side_of_screen)
-	{
-		case 0:
-			x = rand() % (world_width + 400) - 200;
-			y = -200;
-			break;
-		case 1:
-			x = world_width + 200;
-			y = rand() % (world_width + 400) - 200;
-			break;
-		case 2:
-			x = rand() % (world_width + 400) - 200;
-			y = world_height + 200;
-			break;
-		case 3:
-			x = -200;
-			y = rand() % (world_height + 400) - 200;
-			break;
-	}
-
-	return sf::Vector2f(x, y);
+	return World::asteroidStartingPosition();
 }
 
 b2Vec2 AsteroidGenerator::getLinearVelocity(sf::Vector2f position)
 {
 	float speed = ((rand() % rnd_speed) + min_speed) / static_cast<float>(div_speed);
 
-	int offset = 100;
-	int x_range = world_width - 2 * offset;
-	int y_range = world_height - 2 * offset;
+	auto v = World::asteroidDestPosition();
 
-	int x = rand() % x_range + offset;
-	int y = rand() % y_range + offset;
-
-	int delta_x = position.x - x;
-	int delta_y = position.y - y;
+	int delta_x = position.x - v.x;
+	int delta_y = position.y - v.y;
 
 	float distance = sqrt(delta_x * delta_x + delta_y * delta_y);
 

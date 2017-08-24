@@ -24,6 +24,11 @@ Object::~Object()
 	delete _shape;
 }
 
+float Object::getRadius()
+{
+	return Coords::lengthToWorld(_shape->getLocalBounds().height / 2);
+}
+
 b2Body * Object::getBody()
 {
 	return _body;

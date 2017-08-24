@@ -33,6 +33,11 @@ Player::Player(Spaceship * ship)
 {
 }
 
+b2Body * Player::getBody()
+{
+	return _ship->getBody();
+}
+
 sf::Vector2f Player::getPositionScreen()
 {
 	return _ship->getPosition();

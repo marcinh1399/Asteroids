@@ -42,6 +42,8 @@ public:
 	virtual void act(const float & delta) = 0;
 
 	virtual ~Object();
+
+	float getRadius();
 	
 };
 

@@ -148,12 +148,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationTimeManager.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AsteroidGenerator.h" />
     <ClInclude Include="BulletHandling.h" />
     <ClInclude Include="CreatingPlayerState.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="FactoryButton.h" />
@@ -184,9 +186,11 @@
     <ClInclude Include="WeaponManager.h" />
     <ClInclude Include="BulletShapes.h" />
     <ClInclude Include="Coords.h" />
+    <ClInclude Include="World.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AI.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationTimeManager.cpp" />
     <ClCompile Include="Asteroid.cpp" />
@@ -194,6 +198,7 @@
     <ClCompile Include="Box2D + SFML.cpp" />
     <ClCompile Include="BulletHandling.cpp" />
     <ClCompile Include="CreatingPlayerState.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="FactoryButton.cpp" />
@@ -227,6 +232,7 @@
     <ClCompile Include="WeaponManager.cpp" />
     <ClCompile Include="BulletShapes.cpp" />
     <ClCompile Include="Coords.cpp" />
+    <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

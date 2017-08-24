@@ -38,11 +38,12 @@ Ship * SpaceshipTypes::setType0()
 	// STATS //
 
 	float hp{ 300.f };
-	float speed{ 100.f };
-	float radians_per_second{ 10.f };
+	float speed{ 30.f };
+	float radians_per_second{ Coords::radians(120.f) };   ///{ 7.f };
 	float armor{ 0.8f };
 	float damage_of_bullets{ 0.9f };
 	float bullet_cooldown{ 0.6f };
+	float xyz = 100.f;
 
 	Statistics stats{
 		hp,

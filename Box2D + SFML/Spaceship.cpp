@@ -101,6 +101,7 @@ void Spaceship::linearVelocity(const float & delta, int move)
 
 void Spaceship::angularVelocity(const float & delta, int turn)
 {
+	/*
 	float current_speed = _body->GetAngularVelocity();
 	float acceleration = current_stats.radians_p_s / 1.5f;
 
@@ -109,9 +110,18 @@ void Spaceship::angularVelocity(const float & delta, int turn)
 	if (current_speed > current_stats.radians_p_s)
 	{
 		current_speed = current_stats.radians_p_s;
-	}
+	} 
 
 	_body->SetAngularVelocity(current_speed);
+	*/
+
+	float angle = _body->GetAngle() + turn * delta * current_stats.radians_p_s;
+
+	_body->SetTransform(_body->GetPosition(), angle);
+
+	
+	
+	//_body->SetFixedRotation(angle);
 }
 
 void Spaceship::immuneAnimation()

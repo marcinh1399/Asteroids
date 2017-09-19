@@ -24,6 +24,8 @@ protected:
 
 	virtual void handling(const float & delta) = 0;
 
+	void pushKey(sf::Keyboard::Key key);
+
 public:
 	IListener(std::shared_ptr<KeyboardHandling> keyboard);
 	

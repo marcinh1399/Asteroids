@@ -2,6 +2,11 @@
 #include "IListener.h"
 
 
+void IListener::pushKey(sf::Keyboard::Key key)
+{
+	keys.push_back(std::pair<sf::Keyboard::Key, bool>(key, false));
+}
+
 IListener::IListener(std::shared_ptr<KeyboardHandling> keyboard)
 	: _keyboard{ keyboard }
 {

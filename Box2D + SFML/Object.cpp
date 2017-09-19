@@ -2,31 +2,25 @@
 #include "Object.h"
 
 
-Object::Object(float hp, b2Body * body, sf::Shape * shape, float dmg)
-	: stamina{ hp }, 
-	_body{ body }, 
-	_shape{ shape }, 
-	damage{ dmg }
-{
-	state = ObjectState::created;
-}
-
-Object::Object(b2Body * body, sf::Shape * shape)
-	: _body(body),
-	_shape(shape)
-{
-	damage = stamina = body->GetMass();
-	state = ObjectState::created;
-}
 
 Object::~Object()
 {
 	delete _shape;
 }
 
-float Object::getRadius()
+void Object::updatePosition()
 {
-	return Coords::lengthToWorld(_shape->getLocalBounds().height / 2);
+	_shape->setPosition(Coords::translate(_body->GetPosition()));
+	_shape->setRotation(Coords::deegres(_body->GetAngle()));
+}
+
+Object::Object(b2Body * body, sf::Shape * shape)
+	: Subject(),
+	_body(body),
+	_shape(shape)
+{
+	damage = stamina = body->GetMass();
+	state = ObjectState::created;
 }
 
 b2Body * Object::getBody()
@@ -44,9 +38,14 @@ ObjectState Object::getState()
 	return state;
 }
 
-sf::Vector2f Object::getPosition()
+sf::Vector2f Object::getSFposition()
 {
 	return _shape->getPosition();
+}
+
+b2Vec2 Object::getB2position()
+{
+	return _body->GetPosition();
 }
 
 float Object::getDamage()
@@ -74,8 +73,7 @@ bool Object::hit(const float & damage)
 }
 
 
-void Object::updatePosition()
+float Object::getRadius()
 {
-	_shape->setPosition(Coords::translate(_body->GetPosition()));
-	_shape->setRotation(Coords::deegres(_body->GetAngle()));
+	return Coords::lengthToWorld(_shape->getLocalBounds().height / 2);
 }

@@ -6,13 +6,12 @@
 
 
 
-GameState::GameState(std::unique_ptr<StateManager>& u_manager, 
-	std::unique_ptr<sf::RenderWindow>& u_window, 
+GameState::GameState(std::unique_ptr<StateManager>& u_manager,
+	std::unique_ptr<sf::RenderWindow>& u_window,
 	sf::Vector2f world_bounds, std::shared_ptr<KeyboardHandling> keyboard)
 	: IState(u_manager, u_window, world_bounds, keyboard)
 {
-	game_objects = std::make_shared<GameObjects>(world_bounds, SpaceshipTypes::ShipType::type1, keyboard);
-	world_manager = std::make_unique<WorldManager>(game_objects);
+	world_manager = std::make_unique<WorldManager>(game_objects, keyboard);
 	screen_manager = std::make_unique<ScreenManager>(game_objects, u_window);
 }
 

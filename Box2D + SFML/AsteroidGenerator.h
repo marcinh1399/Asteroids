@@ -48,11 +48,11 @@ private:
 
 public:
 
-	AsteroidGenerator(int width, int height);
+	AsteroidGenerator() = default;
 
 	sf::ConvexShape * makeShape();
 	
-	sf::Vector2f getPosition();
+	sf::Vector2f getSFposition();
 	
 	b2Vec2 getLinearVelocity(sf::Vector2f position);
 

@@ -1,13 +1,21 @@
 #include "stdafx.h"
 #include "WeaponManager.h"
 
-typedef std::vector<Bullet *>::iterator Iterator;
+
+
 
 WeaponManager::WeaponManager(const unsigned int & max_bullets, 
 				unsigned int how_much_bullets, float cooldown)
 	: max_quantity(max_bullets), 
 	quantity(how_much_bullets),
 	time_manager(TimeManager(cooldown, true))
+{
+}
+
+WeaponManager::WeaponManager(const ManagerInit & init)
+	: time_manager(TimeManager(init.cooldown_in_seconds, true)),
+	quantity(init.init_amount_of_bullets),
+	max_quantity(init.max_value)
 {
 }
 

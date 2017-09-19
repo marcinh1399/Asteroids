@@ -3,7 +3,6 @@
 #include "WorldManager.h"
 #include "ScreenManager.h"
 #include "GameObjects.h"
-#include <mutex>
 #include <SFML\Graphics.hpp>
 
 
@@ -18,7 +17,7 @@ private:
 	std::unique_ptr<WorldManager> world_manager;
 	std::unique_ptr<ScreenManager> screen_manager;
 
-	std::shared_ptr<GameObjects> game_objects;
+	GameObjects game_objects;
 
 
 public:

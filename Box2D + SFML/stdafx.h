@@ -12,4 +12,14 @@
 
 
 
+
 // TODO: reference additional headers your program requires here
+#include "Observer.h"
+#include "Subject.h"
+#include "Object.h"
+#include "Asteroid.h"
+#include "Bullet.h"
+#include "WeaponManager.h"
+#include "ArmedObject.h"
+#include "MissileObserver.h"
+#include "AIObject.h"

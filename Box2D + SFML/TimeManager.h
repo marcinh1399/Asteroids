@@ -6,7 +6,7 @@ class TimeManager
 
 private:
 
-	const float const_cooldown;
+	float const_cooldown;
 	float cooldown;
 	float time_after_last_use;
 
@@ -17,6 +17,8 @@ public:
 	TimeManager & operator+=(const float & delta);
 
 	TimeManager & operator*=(const float & multiplier);
+
+	TimeManager & operator=(const TimeManager & manager);
 
 	bool use();
 

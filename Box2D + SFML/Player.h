@@ -1,7 +1,6 @@
 #pragma once
 #include "Object.h"
 #include "WeaponManager.h"
-#include "Spaceship.h"
 #include <list>
 #include "IListener.h"
 #include "KeyboardHandling.h"
@@ -16,7 +15,7 @@ class WeaponManager;
 
 class Player
 {
-
+	/*
 private:
 
 	std::string nickname;
@@ -53,6 +52,7 @@ public:
 	void setGameShip(Spaceship * spaceship);
 
 	~Player();
+	*/
 
 };
 

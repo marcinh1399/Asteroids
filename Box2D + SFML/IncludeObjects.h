@@ -1,0 +1,9 @@
+#pragma once
+#include "Subject.h"
+#include "Object.h"
+#include "Bullet.h"
+#include "Asteroid.h"
+#include "ArmedObject.h"
+#include "AIObject.h"
+#include "EnemyAI.h"
+#include "PlayerObject.h"

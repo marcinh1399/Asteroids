@@ -2,28 +2,22 @@
 #include "AsteroidGenerator.h"
 
 
-AsteroidGenerator::AsteroidGenerator(int width, int height)
-{
-	world_width = width;
-	world_height = height;
-}
+
 
 
 sf::ConvexShape * AsteroidGenerator::makeShape()
 {
 	size_t number_of_vertices = rand() % rnd_vertices + min_vertices;
 	
-	float f_angle = 360 / number_of_vertices;
+	float f_angle = 360.f / number_of_vertices;
 	int angle = static_cast<int>(f_angle);
-	//////////////////////
-	int length = min_radius + rand() % rnd_radius;
-	/////////////////////////
-	sf::ConvexShape * shape = new sf::ConvexShape(number_of_vertices);
+	
+	auto shape = new sf::ConvexShape(number_of_vertices);
 
 	for (int i = 0; i < number_of_vertices; ++i)
 	{
 		int alpha = Coords::radians(f_angle * i + rand() % angle);
-//		int length = min_radius + rand() % rnd_radius;
+		int length = min_radius + rand() % rnd_radius;
 		shape->setPoint(i, sf::Vector2f( sin(alpha) * length, cos(alpha) * length ));
 	}
 
@@ -34,7 +28,7 @@ sf::ConvexShape * AsteroidGenerator::makeShape()
 	return shape;
 }
 
-sf::Vector2f AsteroidGenerator::getPosition()
+sf::Vector2f AsteroidGenerator::getSFposition()
 {
 	return World::asteroidStartingPosition();
 }

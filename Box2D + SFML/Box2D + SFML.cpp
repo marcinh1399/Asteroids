@@ -37,6 +37,12 @@
 #include <boost\ptr_container\ptr_vector.hpp>
 
 
+
+#include <boost\ptr_container\ptr_map.hpp>
+#include <boost\ptr_container\ptr_inserter.hpp>
+
+
+
 #include "Coords.h"
 
 
@@ -60,20 +66,79 @@ void foo(int n)
 	}
 }
 
+class CLASS
+{
+public:
+
+	int x = 100;
+
+	CLASS();
+	~CLASS();
+
+private:
+
+};
+
+CLASS::CLASS()
+{
+	printf("CLASS is creating!\n");
+}
+
+CLASS::~CLASS()
+{
+	printf("CLASS is destroying!\n");
+}
+
+
+class KEY
+{
+public:
+
+	int key = 214190248;
+
+	KEY();
+	~KEY();
+
+private:
+
+};
+
+KEY::KEY()
+{
+	printf("KEY is creating!\n");
+}
+
+KEY::~KEY()
+{
+	printf("KEY is destroying!\n");
+}
+
+
 int main(int argc, char** argv)
 {
 
 	srand(time(NULL));
 	Coords::init(20);
 
+	
+	KEY * ptr;
+	
+
+	if (true)
+	{
+		
+		boost::ptr_map<KEY *, CLASS> ptr_map;
+		KEY * key = ptr = new KEY();
+		CLASS * object = new CLASS();
+
+		ptr_map.insert(key, object);
+	}
 
 
 	
-
 	
 	
-	
-
+/**/
 	RECT desktop;
 	const HWND Desktop = GetDesktopWindow();
 	GetWindowRect(Desktop, &desktop);
@@ -132,7 +197,9 @@ int main(int argc, char** argv)
 	
 	keyboard->turnOffThread();
 	t_keyboard.wait();
-	
+	/**/
 
+	while (true)
+		;
 	return 0;
 }

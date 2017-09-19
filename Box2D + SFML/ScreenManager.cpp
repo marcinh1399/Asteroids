@@ -4,9 +4,9 @@
 
 
 
-ScreenManager::ScreenManager(std::shared_ptr<GameObjects> g_objects, std::unique_ptr<sf::RenderWindow> & wind)
-	: objects(g_objects->objects),
-	expl_animations(g_objects->expl_animations),
+
+ScreenManager::ScreenManager(GameObjects & objects, std::unique_ptr<sf::RenderWindow>& wind)
+	: game_objects(objects),
 	window(wind)
 {
 	border.setPointCount(128);
@@ -31,24 +31,29 @@ void ScreenManager::display()
 	window->draw(border);
 	window->draw(border2);
 
-	for (auto & object : objects)
+
+	for (auto & pair : game_objects.objects)
 	{
+		auto * object = pair.second;
+
 		auto * shape = object->getShape();
 		window->draw(*shape);
 
-		if (auto p = dynamic_cast<Enemy *>(object.get()))
+		
+		if (auto p = dynamic_cast<EnemyAI *>(object))
 		{
-			//sf::View view(p->getPosition(), window->getView().getSize());
+			//sf::View view(p->getSFposition(), window->getView().getSize());
 			auto v = window->getView();
-			v.setCenter(p->getPosition());
+			v.setCenter(p->getSFposition());
 			window->setView(v);
 		}
+	
 	}
 	
-	for (auto & animation : expl_animations)
+	for (auto & animation : game_objects.explosions)
 	{
-		auto _frame = animation->getFrame(0.f); // it has been updated in animations()
-		window->draw(*_frame);
+		auto * _frame = animation.getFrame(0.f); // it has been updated in animations()
+		//window->draw(*_frame);
 	}
 
 	window->display();

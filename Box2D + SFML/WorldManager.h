@@ -1,16 +1,12 @@
 #pragma once
-#include "Object.h"
 #include <vector>
 #include <memory>
 #include "Box2D\Box2D.h"
-#include "AsteroidGenerator.h"
-#include "Bullet.h"
-#include "TimeManager.h"
-#include "Factory.h"
-#include "BulletHandling.h"
-#include "ObjectManager.h"
 #include "GameObjects.h"
+#include "Factory.h"
+#include "CreationManager.h"
 #include "World.h"
+
 
 
 class WorldManager
@@ -18,7 +14,58 @@ class WorldManager
 
 private:
 
+	b2World b2world;
+	GameObjects & set_of_objects;
+
+	Factory factory;
+
+
+	CreationManager acm;
+	CreationManager ecm;
+
+	void initACM();
+
+	void initECM();
+
+	void makeAsteroid(const float & delta);
+
+	void makeEnemy(const float & delta);
+
+	void add(b2Body * key, Object * object);
+
+	void collisions();
+
+	void explosion(Object * obj);
+
+	void remove();
+
+	void missile();
+
+
+public:
+	
+	
+	WorldManager(GameObjects & game_objects, std::shared_ptr<KeyboardHandling> keyboard);
+
+	void act(const float & delta);
+
+	bool outOfMap(Object & o);
+
+	bool outOfMap(const Observer::State & state);
+
+	~WorldManager();
+};
+
+
+
 /*
+
+class WorldManager
+{
+
+private:
+
+	/*
 	std::vector< std::unique_ptr<Object> > & objects;
 	std::vector< std::unique_ptr<Animation> > & expl_animations;
 
@@ -28,7 +75,7 @@ private:
 	std::unique_ptr<Factory> _factory;
 	std::shared_ptr<KeyboardHandling> _keyboard;
 
-	*/
+	* /
 
 
 	const unsigned int radius_of_world = 5000;
@@ -70,3 +117,4 @@ public:
 	~WorldManager();
 };
 
+*/

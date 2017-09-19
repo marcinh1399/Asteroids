@@ -32,8 +32,21 @@ TimeManager & TimeManager::operator*=(const float & multiplier)
 	return *this;
 }
 
+TimeManager & TimeManager::operator=(const TimeManager & manager)
+{
+	this->const_cooldown = manager.const_cooldown;
+	this->cooldown = manager.cooldown;
+	this->time_after_last_use = 0;
+
+	return *this;
+}
+
 bool TimeManager::use()
 {
+	// I think I know what causes this bug...
+	// WeaponManagers aren't initialized
+	// TODO ^^
+
 	bool ready = time_after_last_use >= cooldown;
 
 	if (ready)

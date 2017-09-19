@@ -3,7 +3,6 @@
 
 
 
-
 Bullet::Bullet(b2Body * ptr_body, sf::Shape * ptr_shape, float hp)
 	: Object(ptr_body, ptr_shape)
 {
@@ -12,10 +11,11 @@ Bullet::Bullet(b2Body * ptr_body, sf::Shape * ptr_shape, float hp)
 	state = ObjectState::alive;
 }
 
+Bullet::~Bullet()
+{
+}
+
 void Bullet::act(const float & delta)
 {
 	updatePosition();
 }
-
-
-

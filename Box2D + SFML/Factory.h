@@ -6,10 +6,13 @@
 #include "AsteroidGenerator.h"
 #include "Player.h"
 #include "SpaceshipTypes.h"
-#include "Spaceship.h"
 #include "Bullet.h"
 #include "BulletShapes.h"
-#include "Enemy.h"
+#include <boost\ptr_container\ptr_map.hpp>
+#include "EnemyAI.h"
+#include "PlayerObject.h"
+#include "GameObjects.h"
+#include "WeaponManager.h"
 
 
 class Enemy;
@@ -17,17 +20,25 @@ class GameObjects;
 class AI;
 
 
+
+
+
 class Factory
 {
 
 private:
 
-	std::unique_ptr<b2World> & _world;
-	std::unique_ptr<AsteroidGenerator> asteroid_generator;
-	sf::Vector2f world_bounds;
+	using Keyboard = std::shared_ptr<KeyboardHandling>;
+
+
+	AsteroidGenerator asteroid_generator;
 	std::shared_ptr<Player> _player;
 	SpaceshipTypes * spaceship_types;
 	BulletShapes bullet_shapes;
+
+
+	b2World & b2world;
+	GameObjects & objects;
 	
 
 
@@ -48,27 +59,32 @@ private:
 
 
 public:
-	Factory(std::unique_ptr<b2World> & world, sf::Vector2f world_bnds);
+
+	Factory(b2World & world, GameObjects & game_objects);
 
 
-	std::unique_ptr<Asteroid> makeAsteroid();
+	//Factory(std::shared_ptr<b2World> world, ObjectsMap map);
 
 
+	Asteroid * makeAsteroid();
+
+
+	/*
 	std::shared_ptr<Player> makePlayer(std::unique_ptr<Spaceship> & ship, 
 		std::shared_ptr<KeyboardHandling> keyboard);
 
 
-	std::unique_ptr<Spaceship> makeSpaceship(sf::Vector2f sf_pos, 
-		SpaceshipTypes::ShipType type, std::shared_ptr<KeyboardHandling> keyboard);
+	Spaceship * makeSpaceship(sf::Vector2f sf_pos, 
+		SpaceshipTypes::ShipType type, Keyboard keyboard);
+		*/
+
+	PlayerObject * makePlayer(sf::Vector2f sf_pos, Keyboard keyboard, SpaceshipTypes::ShipType type);
 
 
-	std::unique_ptr<Bullet> makeBullet(Bullet::Type type);
+	EnemyAI * makeEnemy();
 
 
-	std::unique_ptr<Enemy> makeEnemy(std::shared_ptr<GameObjects> g_objects);
-
-
-	std::unique_ptr<Bullet> makeBullet(Bullet::Type type, Enemy * object);
+	Bullet * makeBullet(Bullet::Type type, ArmedObject * object, float multiplier);
 
 
 	~Factory();

@@ -3,6 +3,7 @@
 
 
 
+
 Asteroid::Asteroid(b2Body * body, sf::Shape * shape)
 	: Object(body, shape)
 {
@@ -10,17 +11,14 @@ Asteroid::Asteroid(b2Body * body, sf::Shape * shape)
 	updatePosition();
 }
 
-
-
 Asteroid::~Asteroid()
 {
-
 }
 
 void Asteroid::act(const float & delta)
 {
 	updatePosition();
-	
+
 	if (state == ObjectState::created)
 	{
 		if (create_time.isReady())
@@ -32,11 +30,4 @@ void Asteroid::act(const float & delta)
 			create_time += delta;
 		}
 	}
-
 }
-
-
-
-
-
-

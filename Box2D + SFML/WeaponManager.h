@@ -4,8 +4,9 @@
 #include "TimeManager.h"
 #include <vector>
 #include <algorithm>
+#include "ArmedObject.h"
 
-
+struct ManagerInit;
 
 class WeaponManager
 {
@@ -21,6 +22,8 @@ private:
 
 public:
 	WeaponManager(const unsigned int & max_bullets, unsigned int how_much_bullets, float cooldown);
+
+	WeaponManager(const ManagerInit & init);
 
 	float percentageValueOfCooldown();
 

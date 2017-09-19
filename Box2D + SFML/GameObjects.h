@@ -1,11 +1,10 @@
 #pragma once
-#include <vector>
-#include <memory>
 #include "Object.h"
-#include "Factory.h"
 #include <Box2D\Box2D.h>
-#include "Player.h"
-#include "World.h"
+#include "Animation.h"
+#include "ObserversController.h"
+#include <map>
+
 
 class Factory;
 
@@ -14,20 +13,18 @@ class GameObjects
 {
 
 public:
-	
-	sf::Vector2f world_size;
 
-	std::vector< std::unique_ptr<Object> > objects;
-	std::vector< std::unique_ptr<Animation> > expl_animations;
-	std::shared_ptr<KeyboardHandling> keyboard;
-	std::unique_ptr<b2World> world;
-	std::unique_ptr<Factory> factory;
-	std::shared_ptr<Player> player;
+	std::map<b2Body *, Object *> objects;
+	std::map<b2Body *, ObserversController *> observers;
 
-	std::unique_ptr<Bullet> enemy_bullet;
+	std::list<Animation> explosions;
 
+	GameObjects();
 
-	GameObjects(sf::Vector2f world_bounds, SpaceshipTypes::ShipType s_t, std::shared_ptr<KeyboardHandling> kb);
-	~GameObjects();
+	/*
+	boost::ptr_map<b2Body *, Object> objects;
+	boost::ptr_map<b2Body *, ObserversController> observers;
+	*/
+
 };
 

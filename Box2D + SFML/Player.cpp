@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-
+/*
 
 Player::~Player()
 {
@@ -40,7 +40,7 @@ b2Body * Player::getBody()
 
 sf::Vector2f Player::getPositionScreen()
 {
-	return _ship->getPosition();
+	return _ship->getSFposition();
 }
 
 b2Vec2 Player::getPositionWorld()
@@ -76,3 +76,5 @@ void Player::setGameShip(Spaceship * spaceship)
 
 
 
+
+*/

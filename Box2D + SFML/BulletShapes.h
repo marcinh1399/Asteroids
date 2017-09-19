@@ -24,12 +24,12 @@ private:
 
 
 	////		SPEED			////
-	const float bullet_speed{ 120.f };
-	const float rocket_speed{ 80.f };
+	const float bullet_speed{ 50.f };
+	const float rocket_speed{ 30.f };
 	const float obstacle_speed{ 0.f };
-
-	int sdasdishafiuasbg;
 	////////////////////////////////
+
+	int complile;
 
 	
 
